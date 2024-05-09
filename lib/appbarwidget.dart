@@ -17,7 +17,6 @@ class AppW extends StatefulWidget implements PreferredSizeWidget {
 }
 
 class _AppWState extends State<AppW> {
-  bool _folded = true;
   @override
   Widget build(BuildContext context) {
     return SafeArea(
