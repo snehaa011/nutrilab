@@ -24,6 +24,12 @@ class _BottomNavState extends State<BottomNav> {
     return Scaffold(
       backgroundColor: Color.fromARGB(255, 226, 226, 226),
       body: pages[myIndex],
+      floatingActionButton: FloatingActionButton(
+          shape: CircleBorder(),
+          onPressed: () {},
+          backgroundColor: const Color.fromARGB(255, 127, 189, 129),
+          child: Icon(Icons.shopping_basket_rounded, color: Colors.white),
+        ),
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
         // showSelectedLabels: false,
