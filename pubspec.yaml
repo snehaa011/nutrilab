@@ -86,6 +86,14 @@ flutter:
     - family: Lalezar
       fonts:
         - asset: assets/fonts/Lalezar-Regular.ttf
+    - family: Gayathri
+      fonts:
+        - asset: assets/fonts/Gayathri-Thin.ttf
+          weight: 100
+        - asset: assets/fonts/Gayathri-Regular.ttf
+          weight: 400
+        - asset: assets/fonts/Gayathri-Bold.ttf
+          weight: 700
   #       - asset: fonts/TrajanPro_Bold.ttf
   #         weight: 700
   #

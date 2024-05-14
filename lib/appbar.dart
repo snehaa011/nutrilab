@@ -42,57 +42,57 @@ class _CreateAppBarState extends State<CreateAppBar> {
                 ],
                 
               ),
-              if (widget.sidebutton){
-                    AnimatedContainer(
-              duration: Duration(milliseconds: 400),
-              width: _folded ? 40 : 180,
-              height: 40,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(20),
-                color: Colors.white,
-                boxShadow: kElevationToShadow[3],
-              ),
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: Container(
-                        padding: EdgeInsets.only(left: 10),
-                        child: _folded
-                            ? null
-                            : TextField(
-                                decoration: InputDecoration(
-                                    hintText: 'Search',
-                                    hintStyle: TextStyle(
-                                      color: Color.fromARGB(255, 35, 58, 33),
-                                      fontSize: 15,
-                                    ),
-                                    border: InputBorder.none),
-                              ),
-                      ),
-                    ),
-                    AnimatedContainer(
-                      duration: Duration(
-                        milliseconds: 400,
-                      ),
-                      child: InkWell(
-                        child: Icon(
-                          Icons.search,
-                          color: const Color.fromARGB(255, 63, 109, 64),
-                        ),
-                        onTap: () {
-                          setState(() {
-                            _folded = !_folded;
-                          });
-                        },
-                      ),
-                    ) as Widget
-                  ],
-                ),
-              ),
-            ) as Widget,
-                }]
+            //   if (widget.sidebutton){
+            //         AnimatedContainer(
+            //   duration: Duration(milliseconds: 400),
+            //   width: _folded ? 40 : 180,
+            //   height: 40,
+            //   decoration: BoxDecoration(
+            //     borderRadius: BorderRadius.circular(20),
+            //     color: Colors.white,
+            //     boxShadow: kElevationToShadow[3],
+            //   ),
+            //   child: Padding(
+            //     padding: const EdgeInsets.all(8.0),
+            //     child: Row(
+            //       children: [
+            //         Expanded(
+            //           child: Container(
+            //             padding: EdgeInsets.only(left: 10),
+            //             child: _folded
+            //                 ? null
+            //                 : TextField(
+            //                     decoration: InputDecoration(
+            //                         hintText: 'Search',
+            //                         hintStyle: TextStyle(
+            //                           color: Color.fromARGB(255, 35, 58, 33),
+            //                           fontSize: 15,
+            //                         ),
+            //                         border: InputBorder.none),
+            //                   ),
+            //           ),
+            //         ),
+            //         AnimatedContainer(
+            //           duration: Duration(
+            //             milliseconds: 400,
+            //           ),
+            //           child: InkWell(
+            //             child: Icon(
+            //               Icons.search,
+            //               color: const Color.fromARGB(255, 63, 109, 64),
+            //             ),
+            //             onTap: () {
+            //               setState(() {
+            //                 _folded = !_folded;
+            //               });
+            //             },
+            //           ),
+            //         ) as Widget
+            //       ],
+            //     ),
+            //   ),
+            // ) as Widget,
+                ]
               
             )),
       ),

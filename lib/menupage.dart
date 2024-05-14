@@ -1,7 +1,6 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:flutter/material.dart';
-import './navbarwidget.dart';
-import './appbarwidget.dart';
-import './menu.dart';
 
 class GoToMenuPage extends StatefulWidget {
   const GoToMenuPage({super.key});
@@ -15,15 +14,24 @@ class _GoToMenuPageState extends State<GoToMenuPage> {
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: Padding(
-        padding: const EdgeInsets.only(top: 15),
+        padding: const EdgeInsets.only(top: 30),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            Text(
+              'NUTRILAB',
+              style: TextStyle(
+                  color: Color.fromARGB(255, 24, 79, 87),
+                  fontSize: 40,
+                  fontWeight: FontWeight.w500,
+                  fontFamily: 'Genos'),
+            ),
             Padding(
-              padding: const EdgeInsets.all(20.0),
+              padding: const EdgeInsets.fromLTRB(25, 10, 25, 10),
               child: TextField(
                 decoration: InputDecoration(
-                  contentPadding: EdgeInsets.symmetric(vertical: 15.0),
+                  contentPadding:
+                      EdgeInsets.symmetric(vertical: 15.0, horizontal: 10.0),
                   border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(30),
                       borderSide: BorderSide(width: 0.8)),
@@ -39,11 +47,56 @@ class _GoToMenuPageState extends State<GoToMenuPage> {
             Padding(
               padding: const EdgeInsets.fromLTRB(25, 10, 25, 0),
               child: Text(
-                'Breakfast',
+                'Categories',
                 style: TextStyle(
                     fontFamily: 'Lalezar',
                     color: const Color.fromARGB(255, 58, 58, 58),
                     fontSize: 20),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(25, 10, 25, 10),
+              child: SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Container(
+                  height: 40,
+                  child: Row(
+                    children: [
+                      ElevatedButton(
+                        onPressed: () {},
+                        child: Text("Breakfast"),
+                      ),
+                      SizedBox(
+                        width: 5,
+                      ),
+                      ElevatedButton(
+                        onPressed: () {},
+                        child: Text("Lunch"),
+                      ),
+                      SizedBox(
+                        width: 5,
+                      ),
+                      ElevatedButton(
+                        onPressed: () {},
+                        child: Text("Dinner"),
+                      ),
+                      SizedBox(
+                        width: 5,
+                      ),
+                      ElevatedButton(
+                        onPressed: () {},
+                        child: Text("Drinks"),
+                      ),
+                      SizedBox(
+                        width: 5,
+                      ),
+                      ElevatedButton(
+                        onPressed: () {},
+                        child: Text("Bites"),
+                      ),
+                    ],
+                  ),
+                ),
               ),
             ),
             Padding(
@@ -87,6 +140,5 @@ class _GoToMenuPageState extends State<GoToMenuPage> {
         ),
       ),
     );
-        
   }
 }

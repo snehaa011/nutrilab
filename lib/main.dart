@@ -1,8 +1,8 @@
 // ignore_for_file: prefer_const_constructors, sort_child_properties_last, prefer_const_literals_to_create_immutables
 
 import 'package:flutter/material.dart';
-
-import 'package:nutrilab/menupage.dart';
+import 'package:nutrilab/loginpage.dart';
+import 'package:nutrilab/navbarwidget.dart';
 
 void main() {
   runApp(const MyApp());
@@ -22,7 +22,7 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: GoToMenuPage(),
+      home: GoToLoginPage(),
     );
   }
 }
