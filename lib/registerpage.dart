@@ -14,6 +14,11 @@ class GoToRegisterPage extends StatefulWidget {
 }
 
 class _GoToRegisterPageState extends State<GoToRegisterPage> {
+  final _name= TextEditingController();
+  final _email= TextEditingController();
+  final _password= TextEditingController();
+  final _cpass= TextEditingController();
+  final _mobile= TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -34,6 +39,17 @@ class _GoToRegisterPageState extends State<GoToRegisterPage> {
               ),
               Spacer(flex: 4),
               TextFormField(
+                controller: _name,
+                cursorColor: Color.fromARGB(255, 24, 79, 87),
+                style: TextStyle(
+                    color: const Color.fromARGB(255, 0, 0, 0),
+                    fontFamily: 'Gayathri'),
+                decoration: myDecorationField.copyWith(hintText: 'Name'),
+                keyboardType: TextInputType.emailAddress,
+              ),
+              Spacer(),
+              TextFormField(
+                controller: _email,
                 cursorColor: Color.fromARGB(255, 24, 79, 87),
                 style: TextStyle(
                     color: const Color.fromARGB(255, 0, 0, 0),
@@ -43,6 +59,7 @@ class _GoToRegisterPageState extends State<GoToRegisterPage> {
               ),
               Spacer(),
               TextFormField(
+                controller: _password,
                 cursorColor: Color.fromARGB(255, 24, 79, 87),
                 style: TextStyle(
                     color: const Color.fromARGB(255, 0, 0, 0),
@@ -51,6 +68,7 @@ class _GoToRegisterPageState extends State<GoToRegisterPage> {
               ),
               Spacer(),
               TextFormField(
+                controller: _cpass,
                 cursorColor: Color.fromARGB(255, 24, 79, 87),
                 style: TextStyle(
                     color: const Color.fromARGB(255, 0, 0, 0),
@@ -60,6 +78,7 @@ class _GoToRegisterPageState extends State<GoToRegisterPage> {
               ),
               Spacer(),
               TextFormField(
+                controller: _mobile,
                 cursorColor: Color.fromARGB(255, 24, 79, 87),
                 style: TextStyle(
                     color: const Color.fromARGB(255, 0, 0, 0),

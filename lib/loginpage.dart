@@ -13,7 +13,14 @@ class GoToLoginPage extends StatefulWidget {
 }
 
 class _GoToLoginPageState extends State<GoToLoginPage> {
+  final _email = TextEditingController();
+  final _password =TextEditingController();
   @override
+  void dispose() {
+    super.dispose();
+    _email.dispose();
+    _password.dispose();
+  }
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Color.fromARGB(255, 250, 240, 222),
@@ -62,6 +69,7 @@ class _GoToLoginPageState extends State<GoToLoginPage> {
               ),
               Spacer(flex: 4),
               TextFormField(
+                controller: _email,
                 cursorColor: Color.fromARGB(255, 24, 79, 87),
                 style: TextStyle(
                     color: const Color.fromARGB(255, 0, 0, 0),
@@ -73,6 +81,7 @@ class _GoToLoginPageState extends State<GoToLoginPage> {
               ),
               Spacer(),
               TextFormField(
+                controller: _password,
                 cursorColor: Color.fromARGB(255, 24, 79, 87),
                 style: TextStyle(
                     color: const Color.fromARGB(255, 0, 0, 0),
