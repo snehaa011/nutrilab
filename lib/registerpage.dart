@@ -1,9 +1,7 @@
 // ignore_for_file: prefer_const_constructors
 
 import "package:flutter/material.dart";
-import "package:nutrilab/loginpage.dart";
 import "package:nutrilab/navbarwidget.dart";
-import "./menupage.dart";
 import "./deco.dart";
 
 class GoToRegisterPage extends StatefulWidget {
