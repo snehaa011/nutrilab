@@ -40,7 +40,10 @@ class _GoToMenuPageState extends State<GoToMenuPage> {
                       borderSide: BorderSide(width: 0.8)),
                   hintText: 'Search',
                   hintStyle: TextStyle(fontSize: 20),
-                  prefixIcon: Icon(Icons.search, size: 30, ),
+                  prefixIcon: Icon(
+                    Icons.search,
+                    size: 30,
+                  ),
                   suffixIcon: IconButton(
                     onPressed: () {},
                     icon: Icon(Icons.clear),
@@ -54,7 +57,7 @@ class _GoToMenuPageState extends State<GoToMenuPage> {
                 'Categories',
                 style: TextStyle(
                     fontFamily: 'Lalezar',
-                    color: Color.fromARGB(255, 77, 77, 77),
+                    color: Color.fromARGB(255, 24, 79, 87),
                     fontSize: 30),
               ),
             ),
@@ -70,7 +73,13 @@ class _GoToMenuPageState extends State<GoToMenuPage> {
                         height: 50,
                         child: ElevatedButton(
                           onPressed: () {},
-                          child: Text("Breakfast", style: TextStyle(color: Color.fromARGB(255, 24, 79, 87), fontSize: 17,),),
+                          child: Text(
+                            "Breakfast",
+                            style: TextStyle(
+                              color: Color.fromARGB(255, 24, 79, 87),
+                              fontSize: 17,
+                            ),
+                          ),                       
                         ),
                       ),
                       SizedBox(
@@ -80,7 +89,13 @@ class _GoToMenuPageState extends State<GoToMenuPage> {
                         height: 50,
                         child: ElevatedButton(
                           onPressed: () {},
-                          child: Text("Lunch", style: TextStyle(color: Color.fromARGB(255, 24, 79, 87), fontSize: 17,),),
+                          child: Text(
+                            "Lunch",
+                            style: TextStyle(
+                              color: Color.fromARGB(255, 24, 79, 87),
+                              fontSize: 17,
+                            ),
+                          ),
                         ),
                       ),
                       SizedBox(
@@ -90,7 +105,13 @@ class _GoToMenuPageState extends State<GoToMenuPage> {
                         height: 50,
                         child: ElevatedButton(
                           onPressed: () {},
-                          child: Text("Dinner", style: TextStyle(color: Color.fromARGB(255, 24, 79, 87), fontSize: 17,),),
+                          child: Text(
+                            "Dinner",
+                            style: TextStyle(
+                              color: Color.fromARGB(255, 24, 79, 87),
+                              fontSize: 17,
+                            ),
+                          ),
                         ),
                       ),
                       SizedBox(
@@ -100,7 +121,13 @@ class _GoToMenuPageState extends State<GoToMenuPage> {
                         height: 50,
                         child: ElevatedButton(
                           onPressed: () {},
-                          child: Text("Drinks", style: TextStyle(color: Color.fromARGB(255, 24, 79, 87), fontSize: 17,),),
+                          child: Text(
+                            "Drinks",
+                            style: TextStyle(
+                              color: Color.fromARGB(255, 24, 79, 87),
+                              fontSize: 17,
+                            ),
+                          ),
                         ),
                       ),
                       SizedBox(
@@ -110,7 +137,13 @@ class _GoToMenuPageState extends State<GoToMenuPage> {
                         height: 50,
                         child: ElevatedButton(
                           onPressed: () {},
-                          child: Text("Bites", style: TextStyle(color: Color.fromARGB(255, 24, 79, 87), fontSize: 17,),),
+                          child: Text(
+                            "Bites",
+                            style: TextStyle(
+                              color: Color.fromARGB(255, 24, 79, 87),
+                              fontSize: 17,
+                            ),
+                          ),
                         ),
                       ),
                     ],

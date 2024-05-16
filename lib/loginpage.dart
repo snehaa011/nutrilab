@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:nutrilab/authservice.dart';
+import 'package:nutrilab/forgot.dart';
 import 'package:nutrilab/registerpage.dart';
 import './deco.dart';
 
@@ -95,6 +96,28 @@ class _GoToLoginPageState extends State<GoToLoginPage> {
                   hintText: 'Password'
                 ),
                 keyboardType: TextInputType.visiblePassword,
+              ),
+              Align(
+                alignment: Alignment.topRight,
+                child: TextButton(
+                  onPressed: () => {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => ForgotPage(),
+                      ),
+                    ),
+                  },
+                  child: Text(
+                    'Forgot Password?',
+                    style: TextStyle(
+                      fontWeight: FontWeight.w700,
+                      fontFamily: 'Gayathri',
+                      fontSize: 17,
+                      color: Color.fromARGB(255, 24, 79, 87),
+                    ),
+                  ),
+                ),
               ),
               Spacer(),
               SizedBox(
