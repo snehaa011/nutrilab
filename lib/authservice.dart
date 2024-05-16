@@ -1,5 +1,6 @@
 import 'dart:developer';
 import 'package:firebase_auth/firebase_auth.dart';
+import './error.dart';
 
 class AuthService {
   final _auth = FirebaseAuth.instance;
@@ -10,7 +11,7 @@ class AuthService {
           email: email, password: password);
       return cred.user;
     } catch (e) {
-      log("Something went wrong");
+      log("Error creating user: $e");
     }
     return null;
   }
@@ -22,7 +23,7 @@ class AuthService {
           email: email, password: password);
       return cred.user;
     } catch (e) {
-      log("Something went wrong");
+      log("Error logging in: $e");
     }
     return null;
   }
@@ -31,7 +32,7 @@ class AuthService {
     try{
       await _auth.signOut();
     }catch(e){
-      log("Something went wrong.");
+      log("Error signing out: $e");
     }
   }
 }

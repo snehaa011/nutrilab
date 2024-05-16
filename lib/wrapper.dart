@@ -1,36 +1,38 @@
-// import 'package:firebase_auth/firebase_auth.dart';
-// import 'package:flutter/material.dart';
-// import 'package:nutrilab/loginpage.dart';
-// import 'package:nutrilab/navbarwidget.dart';
+// ignore_for_file: prefer_const_constructors
 
-// class Wrapper extends StatefulWidget {
-//   const Wrapper({super.key});
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
+import 'package:nutrilab/loginpage.dart';
+import 'package:nutrilab/navbarwidget.dart';
 
-//   @override
-//   State<Wrapper> createState() => _WrapperState();
-// }
+class Wrapper extends StatefulWidget {          //wraps the whole application
+  const Wrapper({super.key});
 
-// class _WrapperState extends State<Wrapper> {
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       body: StreamBuilder(
-//         stream: FirebaseAuth.instance.authStateChanges(),
-//         builder: (context, snapshot) {
-//           if (snapshot.connectionState == ConnectionState.waiting) {
-//             return Center(child: CircularProgressIndicator());
-//           } else if (snapshot.hasError){
-//             return Center(child: Text("Error"),);
-//           } else {
-//             if (snapshot.data == null){     //user not logged in
-//               return GoToLoginPage();
-//             }
-//             else{
-//               return BottomNav();
-//             }
-//           }
-//         },
-//       ),
-//     );
-//   }
-// }
+  @override
+  State<Wrapper> createState() => _WrapperState();
+}
+
+class _WrapperState extends State<Wrapper> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: StreamBuilder(
+        stream: FirebaseAuth.instance.authStateChanges(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(child: CircularProgressIndicator());
+          } else if (snapshot.hasError){
+            return Center(child: Text("Error"),);
+          } else {
+            if (snapshot.data == null){     //user not logged in
+              return GoToLoginPage();
+            }
+            else{
+              return BottomNav();
+            }
+          }
+        },
+      ),
+    );
+  }
+}

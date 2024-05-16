@@ -22,12 +22,14 @@ final myDecorationField = InputDecoration(
     borderRadius: BorderRadius.circular(20),
     borderSide: BorderSide(
       color: Color.fromARGB(255, 24, 79, 87),
-      width: 1.5,
+      width: 2,
     ),
   ),
   hintStyle: TextStyle(
 
-    color: const Color.fromARGB(255, 87, 87, 87),
+    color: Color.fromARGB(255, 61, 61, 61),
     fontFamily: 'Gayathri',
+    fontWeight: FontWeight.w700,
+    fontSize: 18
   ),
 );

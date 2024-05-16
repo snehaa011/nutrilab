@@ -14,21 +14,24 @@ class _GoToMenuPageState extends State<GoToMenuPage> {
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: Padding(
-        padding: const EdgeInsets.only(top: 30),
+        padding: const EdgeInsets.only(top: 10),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              'NUTRILAB',
-              style: TextStyle(
-                  color: Color.fromARGB(255, 24, 79, 87),
-                  fontSize: 40,
-                  fontWeight: FontWeight.w500,
-                  fontFamily: 'Genos'),
+            Center(
+              child: Text(
+                'NUTRILAB',
+                style: TextStyle(
+                    color: Color.fromARGB(255, 24, 79, 87),
+                    fontSize: 50,
+                    fontWeight: FontWeight.w500,
+                    fontFamily: 'Genos'),
+              ),
             ),
             Padding(
               padding: const EdgeInsets.fromLTRB(25, 10, 25, 10),
               child: TextField(
+                cursorColor: Color.fromARGB(255, 24, 79, 87),
                 decoration: InputDecoration(
                   contentPadding:
                       EdgeInsets.symmetric(vertical: 15.0, horizontal: 10.0),
@@ -36,7 +39,8 @@ class _GoToMenuPageState extends State<GoToMenuPage> {
                       borderRadius: BorderRadius.circular(30),
                       borderSide: BorderSide(width: 0.8)),
                   hintText: 'Search',
-                  prefixIcon: Icon(Icons.search, size: 30),
+                  hintStyle: TextStyle(fontSize: 20),
+                  prefixIcon: Icon(Icons.search, size: 30, ),
                   suffixIcon: IconButton(
                     onPressed: () {},
                     icon: Icon(Icons.clear),
@@ -50,8 +54,8 @@ class _GoToMenuPageState extends State<GoToMenuPage> {
                 'Categories',
                 style: TextStyle(
                     fontFamily: 'Lalezar',
-                    color: const Color.fromARGB(255, 58, 58, 58),
-                    fontSize: 20),
+                    color: Color.fromARGB(255, 77, 77, 77),
+                    fontSize: 30),
               ),
             ),
             Padding(
@@ -59,40 +63,55 @@ class _GoToMenuPageState extends State<GoToMenuPage> {
               child: SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
                 child: Container(
-                  height: 40,
+                  height: 60,
                   child: Row(
                     children: [
-                      ElevatedButton(
-                        onPressed: () {},
-                        child: Text("Breakfast"),
+                      SizedBox(
+                        height: 50,
+                        child: ElevatedButton(
+                          onPressed: () {},
+                          child: Text("Breakfast", style: TextStyle(color: Color.fromARGB(255, 24, 79, 87), fontSize: 17,),),
+                        ),
                       ),
                       SizedBox(
-                        width: 5,
-                      ),
-                      ElevatedButton(
-                        onPressed: () {},
-                        child: Text("Lunch"),
+                        width: 7,
                       ),
                       SizedBox(
-                        width: 5,
-                      ),
-                      ElevatedButton(
-                        onPressed: () {},
-                        child: Text("Dinner"),
-                      ),
-                      SizedBox(
-                        width: 5,
-                      ),
-                      ElevatedButton(
-                        onPressed: () {},
-                        child: Text("Drinks"),
+                        height: 50,
+                        child: ElevatedButton(
+                          onPressed: () {},
+                          child: Text("Lunch", style: TextStyle(color: Color.fromARGB(255, 24, 79, 87), fontSize: 17,),),
+                        ),
                       ),
                       SizedBox(
-                        width: 5,
+                        width: 7,
                       ),
-                      ElevatedButton(
-                        onPressed: () {},
-                        child: Text("Bites"),
+                      SizedBox(
+                        height: 50,
+                        child: ElevatedButton(
+                          onPressed: () {},
+                          child: Text("Dinner", style: TextStyle(color: Color.fromARGB(255, 24, 79, 87), fontSize: 17,),),
+                        ),
+                      ),
+                      SizedBox(
+                        width: 7,
+                      ),
+                      SizedBox(
+                        height: 50,
+                        child: ElevatedButton(
+                          onPressed: () {},
+                          child: Text("Drinks", style: TextStyle(color: Color.fromARGB(255, 24, 79, 87), fontSize: 17,),),
+                        ),
+                      ),
+                      SizedBox(
+                        width: 7,
+                      ),
+                      SizedBox(
+                        height: 50,
+                        child: ElevatedButton(
+                          onPressed: () {},
+                          child: Text("Bites", style: TextStyle(color: Color.fromARGB(255, 24, 79, 87), fontSize: 17,),),
+                        ),
                       ),
                     ],
                   ),
@@ -102,13 +121,13 @@ class _GoToMenuPageState extends State<GoToMenuPage> {
             Padding(
               padding: const EdgeInsets.fromLTRB(25, 10, 25, 5),
               child: SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
                 child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     Container(
                       margin: EdgeInsets.only(left: 5, right: 5),
-                      height: 200,
-                      width: 160,
+                      height: 260,
+                      width: 200,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(10),
                         color: Color.fromARGB(255, 255, 255, 255),
@@ -116,17 +135,8 @@ class _GoToMenuPageState extends State<GoToMenuPage> {
                     ),
                     Container(
                       margin: EdgeInsets.only(left: 5, right: 5),
-                      height: 200,
-                      width: 160,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        color: Color.fromARGB(255, 255, 255, 255),
-                      ),
-                    ),
-                    Container(
-                      margin: EdgeInsets.only(left: 5, right: 5),
-                      height: 200,
-                      width: 160,
+                      height: 260,
+                      width: 200,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(10),
                         color: Color.fromARGB(255, 255, 255, 255),

@@ -1,11 +1,9 @@
 // ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors
-import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:nutrilab/authservice.dart';
 import 'package:nutrilab/registerpage.dart';
 import './deco.dart';
-import './navbarwidget.dart';
 
 class GoToLoginPage extends StatefulWidget {
   const GoToLoginPage({super.key});
@@ -26,7 +24,7 @@ class _GoToLoginPageState extends State<GoToLoginPage> {
   }
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color.fromARGB(255, 250, 240, 222),
+      backgroundColor: Color.fromARGB(255, 225, 226, 209),
       body: Center(
         child: Container(
           width: MediaQuery.of(context).size.width - 40,
@@ -41,7 +39,7 @@ class _GoToLoginPageState extends State<GoToLoginPage> {
                   Text(
                     'NUTRILAB',
                     style: TextStyle(
-                      fontSize: 50,
+                      fontSize: 60,
                       fontFamily: 'Genos',
                       fontWeight: FontWeight.w500,
                       foreground: Paint()
@@ -54,7 +52,7 @@ class _GoToLoginPageState extends State<GoToLoginPage> {
                   Text(
                     'NUTRILAB',
                     style: TextStyle(
-                      fontSize: 50,
+                      fontSize: 60,
                       fontWeight: FontWeight.w500,
                       fontFamily: 'Genos',
                       color: Color.fromARGB(255, 122, 185, 120),
@@ -67,7 +65,7 @@ class _GoToLoginPageState extends State<GoToLoginPage> {
                 "Welcome back, you have been missed!",
                 style: TextStyle(
                     fontFamily: 'Gayathri',
-                    fontWeight: FontWeight.w400,
+                    fontWeight: FontWeight.w700,
                     fontSize: 20),
               ),
               Spacer(flex: 4),
@@ -76,7 +74,9 @@ class _GoToLoginPageState extends State<GoToLoginPage> {
                 cursorColor: Color.fromARGB(255, 24, 79, 87),
                 style: TextStyle(
                     color: const Color.fromARGB(255, 0, 0, 0),
-                    fontFamily: 'Gayathri'),
+                    fontFamily: 'Gayathri',
+                    fontWeight: FontWeight.w700,
+                    fontSize: 18),
                 decoration: myDecorationField.copyWith(
                   hintText: 'Email'
                 ),
@@ -85,13 +85,16 @@ class _GoToLoginPageState extends State<GoToLoginPage> {
               Spacer(),
               TextFormField(
                 controller: _password,
+                obscureText: true,
                 cursorColor: Color.fromARGB(255, 24, 79, 87),
                 style: TextStyle(
                     color: const Color.fromARGB(255, 0, 0, 0),
-                    fontFamily: 'Gayathri'),
+                    fontFamily: 'Gayathri', fontWeight: FontWeight.w700,
+                    fontSize: 18,),
                 decoration: myDecorationField.copyWith(
                   hintText: 'Password'
                 ),
+                keyboardType: TextInputType.visiblePassword,
               ),
               Spacer(),
               SizedBox(
@@ -104,7 +107,7 @@ class _GoToLoginPageState extends State<GoToLoginPage> {
                       fontSize: 35,
                       fontWeight: FontWeight.w500,
                       fontFamily: 'Genos',
-                      color: Color.fromARGB(255, 250, 240, 222),
+                      color: Color.fromARGB(255, 225, 226, 209),
                     ),
                   ),
                   style: ElevatedButton.styleFrom(
@@ -125,7 +128,7 @@ class _GoToLoginPageState extends State<GoToLoginPage> {
                     style: TextStyle(
                         color: Color.fromARGB(255, 0, 0, 0),
                         fontFamily: 'Gayathri',
-                        fontWeight: FontWeight.w400,
+                        fontWeight: FontWeight.w700,
                         fontSize: 17),
                   ),
                   TextButton(
@@ -137,10 +140,10 @@ class _GoToLoginPageState extends State<GoToLoginPage> {
                     child: Text(
                       "Register Now",
                       style: TextStyle(
-                          color: Color.fromARGB(255, 122, 185, 120),
+                          color: Color.fromARGB(255, 24, 79, 87),
                           fontFamily: 'Gayathri',
-                          fontWeight: FontWeight.w400,
-                          fontSize: 17),
+                          fontWeight: FontWeight.w700,
+                          fontSize: 18),
                     ),
                   ),
                 ],
@@ -153,16 +156,7 @@ class _GoToLoginPageState extends State<GoToLoginPage> {
     );
   }
 
-  goToHome(BuildContext context) => Navigator.push(
-    context,
-    MaterialPageRoute(builder: (context) => BottomNav())
-  );
-
   _login() async{
-    final user = await _auth.loginUserWithEmailAndPassword(_email.text, _password.text);
-    if (user!=null){
-      log("User Logged In");
-      goToHome(context);
-    }
+    await _auth.loginUserWithEmailAndPassword(_email.text, _password.text);
   }
 }

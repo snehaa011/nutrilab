@@ -14,15 +14,16 @@ class GoToRegisterPage extends StatefulWidget {
 }
 
 class _GoToRegisterPageState extends State<GoToRegisterPage> {
-  final _auth= AuthService();
-  final _name= TextEditingController();
-  final _email= TextEditingController();
-  final _password= TextEditingController();
-  final _mobile= TextEditingController();
+  final _auth = AuthService();
+  final _name = TextEditingController();
+  final _email = TextEditingController();
+  final _password = TextEditingController();
+  final _mobile = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color.fromARGB(255, 250, 240, 222),
+      // Color.fromARGB(255, 250, 240, 222),
+      backgroundColor: Color.fromARGB(255, 225, 226, 209),
       body: Center(
         child: Container(
           width: MediaQuery.of(context).size.width - 40,
@@ -30,10 +31,10 @@ class _GoToRegisterPageState extends State<GoToRegisterPage> {
             children: [
               Spacer(flex: 16),
               Text(
-                "Start an account today",
+                "Start an account today!",
                 style: TextStyle(
                   fontFamily: 'Gayathri',
-                  fontWeight: FontWeight.w400,
+                  fontWeight: FontWeight.w700,
                   fontSize: 20,
                 ),
               ),
@@ -43,7 +44,9 @@ class _GoToRegisterPageState extends State<GoToRegisterPage> {
                 cursorColor: Color.fromARGB(255, 24, 79, 87),
                 style: TextStyle(
                     color: const Color.fromARGB(255, 0, 0, 0),
-                    fontFamily: 'Gayathri'),
+                    fontFamily: 'Gayathri',
+                    fontWeight: FontWeight.w700,
+                    fontSize: 18),
                 decoration: myDecorationField.copyWith(hintText: 'Name'),
                 keyboardType: TextInputType.emailAddress,
               ),
@@ -53,17 +56,22 @@ class _GoToRegisterPageState extends State<GoToRegisterPage> {
                 cursorColor: Color.fromARGB(255, 24, 79, 87),
                 style: TextStyle(
                     color: const Color.fromARGB(255, 0, 0, 0),
-                    fontFamily: 'Gayathri'),
+                    fontFamily: 'Gayathri',
+                    fontWeight: FontWeight.w700,
+                    fontSize: 18),
                 decoration: myDecorationField.copyWith(hintText: 'Email'),
                 keyboardType: TextInputType.emailAddress,
               ),
               Spacer(),
               TextFormField(
+                obscureText: true,
                 controller: _password,
                 cursorColor: Color.fromARGB(255, 24, 79, 87),
                 style: TextStyle(
                     color: const Color.fromARGB(255, 0, 0, 0),
-                    fontFamily: 'Gayathri'),
+                    fontFamily: 'Gayathri',
+                    fontWeight: FontWeight.w700,
+                    fontSize: 18),
                 decoration: myDecorationField.copyWith(hintText: 'Password'),
               ),
               Spacer(),
@@ -72,7 +80,9 @@ class _GoToRegisterPageState extends State<GoToRegisterPage> {
                 cursorColor: Color.fromARGB(255, 24, 79, 87),
                 style: TextStyle(
                     color: const Color.fromARGB(255, 0, 0, 0),
-                    fontFamily: 'Gayathri'),
+                    fontFamily: 'Gayathri',
+                    fontWeight: FontWeight.w700,
+                    fontSize: 18),
                 decoration: myDecorationField.copyWith(hintText: 'Mobile'),
                 keyboardType: TextInputType.number,
               ),
@@ -87,7 +97,7 @@ class _GoToRegisterPageState extends State<GoToRegisterPage> {
                       fontSize: 35,
                       fontWeight: FontWeight.w500,
                       fontFamily: 'Genos',
-                      color: Color.fromARGB(255, 250, 240, 222),
+                      color: Color.fromARGB(255, 225, 226, 209),
                     ),
                   ),
                   style: ElevatedButton.styleFrom(
@@ -108,7 +118,7 @@ class _GoToRegisterPageState extends State<GoToRegisterPage> {
                     style: TextStyle(
                         color: Color.fromARGB(255, 0, 0, 0),
                         fontFamily: 'Gayathri',
-                        fontWeight: FontWeight.w400,
+                        fontWeight: FontWeight.w700,
                         fontSize: 17),
                   ),
                   TextButton(
@@ -121,10 +131,10 @@ class _GoToRegisterPageState extends State<GoToRegisterPage> {
                     child: Text(
                       "Sign in Now",
                       style: TextStyle(
-                          color: Color.fromARGB(255, 122, 185, 120),
+                          color: Color.fromARGB(255, 24, 79, 87),
                           fontFamily: 'Gayathri',
-                          fontWeight: FontWeight.w400,
-                          fontSize: 17),
+                          fontWeight: FontWeight.w700,
+                          fontSize: 18),
                     ),
                   ),
                 ],
@@ -136,14 +146,14 @@ class _GoToRegisterPageState extends State<GoToRegisterPage> {
       ),
     );
   }
-  goToHome(BuildContext context) => Navigator.push(
-    context,
-    MaterialPageRoute(builder: (context) => BottomNav())
-  );
 
-  _signup() async{
-    final user= await _auth.createUserWithEmailAndPassword(_email.text, _password.text);
-    if (user !=null){
+  goToHome(BuildContext context) => Navigator.push(
+      context, MaterialPageRoute(builder: (context) => BottomNav()));
+
+  _signup() async {
+    final user =
+        await _auth.createUserWithEmailAndPassword(_email.text, _password.text);
+    if (user != null) {
       log("User Created Successfully");
       goToHome(context);
     }
