@@ -31,7 +31,7 @@ class AuthService {
     try{
       await _auth.signOut();
     }catch(e){
-      log("Could not sign out.");
+      log("Something went wrong.");
     }
   }
 }

@@ -4,11 +4,18 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:nutrilab/loginpage.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter/foundation.dart'
+    show defaultTargetPlatform, TargetPlatform;
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  
+  SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+  ]);
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   // SystemChrome.setPreferredOrientations([
   //   DeviceOrientation.portraitUp,
   // ]);
@@ -24,6 +31,32 @@ Future<void> main() async {
 
   runApp(const MyApp());
 }
+
+class DefaultFirebaseOptions {
+  static FirebaseOptions get currentPlatform {
+    switch (defaultTargetPlatform) {
+      case TargetPlatform.android:
+        return android;
+
+      default:
+        return FirebaseOptions(
+          apiKey: "AIzaSyD-ZsaSJXzN4WzRXn9YGhrOmFUSCV1L604",
+          appId: "1:500211632085:android:a839951dda289ebb555f5c",
+          messagingSenderId: "500211632085",
+          projectId: "my-nutrilab-project",
+        );
+    }
+  }
+
+  static const FirebaseOptions android = FirebaseOptions(
+    apiKey: "AIzaSyD-ZsaSJXzN4WzRXn9YGhrOmFUSCV1L604",
+    appId: "1:500211632085:android:a839951dda289ebb555f5c",
+    messagingSenderId: "500211632085",
+    projectId: "my-nutrilab-project",
+    storageBucket: "my-nutrilab-project.appspot.com",
+  );
+}
+
 
 class MyApp extends StatefulWidget {
   const MyApp({super.key});

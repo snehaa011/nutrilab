@@ -1,9 +1,11 @@
 // ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors
-
+import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:nutrilab/authservice.dart';
 import 'package:nutrilab/registerpage.dart';
 import './deco.dart';
+import './navbarwidget.dart';
 
 class GoToLoginPage extends StatefulWidget {
   const GoToLoginPage({super.key});
@@ -13,6 +15,7 @@ class GoToLoginPage extends StatefulWidget {
 }
 
 class _GoToLoginPageState extends State<GoToLoginPage> {
+  final _auth = AuthService();
   final _email = TextEditingController();
   final _password =TextEditingController();
   @override
@@ -94,7 +97,7 @@ class _GoToLoginPageState extends State<GoToLoginPage> {
               SizedBox(
                 width: MediaQuery.of(context).size.width - 40,
                 child: ElevatedButton(
-                  onPressed: () {},
+                  onPressed: _login,
                   child: Text(
                     "SIGN IN",
                     style: TextStyle(
@@ -148,5 +151,18 @@ class _GoToLoginPageState extends State<GoToLoginPage> {
         ),
       ),
     );
+  }
+
+  goToHome(BuildContext context) => Navigator.push(
+    context,
+    MaterialPageRoute(builder: (context) => BottomNav())
+  );
+
+  _login() async{
+    final user = await _auth.loginUserWithEmailAndPassword(_email.text, _password.text);
+    if (user!=null){
+      log("User Logged In");
+      goToHome(context);
+    }
   }
 }
