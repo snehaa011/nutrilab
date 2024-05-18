@@ -140,28 +140,42 @@ class _MenuItemWidgetState extends State<MenuItemWidget> {
                       // alignment: Alignment.center,
                       child: Column(
                         children: [
-                          Align(
-                            alignment: Alignment.topLeft,
-                            child: Container(
-                              constraints: BoxConstraints.tightFor(),
-                              padding: EdgeInsets.fromLTRB(10, 5, 10, 5),
-                              decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(20),
-                              border: Border.all(color: Color.fromARGB(255, 125, 172, 106), width: 1)
-                            ),
-                              // alignment: Alignment.topLeft,
-                              child: Text(widget.type, style: TextStyle(color: Color.fromARGB(255, 24, 79, 87), fontSize: 14),)),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Align(
+                                alignment: Alignment.topLeft,
+                                child: Container(
+                                  constraints: BoxConstraints.tightFor(),
+                                  padding: EdgeInsets.fromLTRB(10, 5, 10, 5),
+                                  decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(20),
+                                  border: Border.all(color: Color.fromARGB(255, 125, 172, 106), width: 1)
+                                ),
+                                  // alignment: Alignment.topLeft,
+                                  child: Text(widget.type, style: TextStyle(color: Color.fromARGB(255, 24, 79, 87), fontSize: 14),)),
+                              ),
+                              Text("Rs. "+ widget.price.toString(), 
+                            style: TextStyle(
+                              fontFamily: 'Lalezar',
+                              color: Color.fromARGB(255, 24, 79, 87),
+                              fontSize: 16,
+                            ),),
+                            ],
                           ),
                           SizedBox(
                             height:10,
                           ),
-                          Text(widget.name.toUpperCase(), 
-                          style: TextStyle(
-                            fontFamily: 'Lalezar',
-                            color: Color.fromARGB(255, 24, 79, 87),
-                            fontSize: 17,
-                          ),),
+                          Align(
+                            alignment: Alignment.topLeft,
+                            child: Text(widget.name.toUpperCase(), 
+                            style: TextStyle(
+                              fontFamily: 'Lalezar',
+                              color: Color.fromARGB(255, 24, 79, 87),
+                              fontSize: 17,
+                            ),),
+                          ),
                         ],
                       ),
                     ),

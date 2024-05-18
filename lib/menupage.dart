@@ -23,7 +23,7 @@ class _GoToMenuPageState extends State<GoToMenuPage> {
               'NUTRILAB',
               style: TextStyle(
                   color: Color.fromARGB(255, 24, 79, 87),
-                  fontSize: 50,
+                  fontSize: 45,
                   fontWeight: FontWeight.w500,
                   fontFamily: 'Genos'),
             ),
@@ -39,7 +39,7 @@ class _GoToMenuPageState extends State<GoToMenuPage> {
                     borderRadius: BorderRadius.circular(30),
                     borderSide: BorderSide(width: 0.8)),
                 hintText: 'Search',
-                hintStyle: TextStyle(fontSize: 20),
+                hintStyle: TextStyle(fontSize: 18),
                 prefixIcon: Icon(
                   Icons.search,
                   size: 30,
@@ -62,11 +62,11 @@ class _GoToMenuPageState extends State<GoToMenuPage> {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.fromLTRB(0, 10, 0, 20),
+            padding: const EdgeInsets.fromLTRB(0, 5, 0, 20),
             child: SingleChildScrollView(
               scrollDirection: Axis.horizontal,
               child: Container(
-                height: 60,
+                height: 55,
                 child: Row(
                   children: [
                     SizedBox(
