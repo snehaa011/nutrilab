@@ -2,8 +2,8 @@
 
 import 'package:flutter/material.dart';
 import 'package:nutrilab/menupage.dart';
-import 'package:nutrilab/planpage.dart';
 import 'package:nutrilab/profile.dart';
+import 'package:nutrilab/savedpage.dart';
 
 class BottomNav extends StatefulWidget {
   const BottomNav({super.key});
@@ -16,7 +16,7 @@ class _BottomNavState extends State<BottomNav> {
   int myIndex=0;
   List<Widget> pages=[
     GoToMenuPage(),
-    GoToPlanPage(),
+    GoToSavedPage(),
     GoToMenuPage(),
     GoToProfile(),
   ];

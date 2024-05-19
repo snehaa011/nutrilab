@@ -63,7 +63,7 @@ class _MenuItemWidgetState extends State<MenuItemWidget> {
         });
       }
     } catch (e) {
-      showNotif(context,'Error: $e');
+      log('Error: $e');
     }
   }
 
