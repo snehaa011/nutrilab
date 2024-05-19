@@ -14,7 +14,7 @@ class _GoToProfileState extends State<GoToProfile> {
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: ElevatedButton(onPressed: ()async{
-        await _auth.signout();
+        await _auth.signout(context);
       }, child: Text("Sign Out")),
     );
   }

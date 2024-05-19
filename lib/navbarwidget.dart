@@ -26,12 +26,6 @@ class _BottomNavState extends State<BottomNav> {
       child: Scaffold(
         backgroundColor: Color.fromARGB(255, 225, 226, 209),
         body: pages[myIndex],
-        floatingActionButton: FloatingActionButton(
-            shape: CircleBorder(),
-            onPressed: () {},
-            backgroundColor: const Color.fromARGB(255, 127, 189, 129),
-            child: Icon(Icons.shopping_basket_rounded, color: Colors.white),
-          ),
         bottomNavigationBar: BottomNavigationBar(
           type: BottomNavigationBarType.fixed,
           // showSelectedLabels: false,
@@ -57,19 +51,19 @@ class _BottomNavState extends State<BottomNav> {
             ),
             BottomNavigationBarItem(
               icon: Icon(
-                Icons.shopping_bag,
+                Icons.favorite_border_outlined,
                 // color: Colors.white,
                 size: 30,
               ),
-              label: 'Mealplans',
+              label: 'Saved',
             ),
             BottomNavigationBarItem(
               icon: Icon(
-                Icons.menu_book_outlined,
+                Icons.shopping_cart_outlined,
                 // color: Colors.white,
                 size: 30,
               ),
-              label: 'Cookbook',
+              label: 'Cart',
             ),
             BottomNavigationBarItem(
               icon: Icon(

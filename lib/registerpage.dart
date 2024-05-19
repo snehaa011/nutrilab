@@ -1,5 +1,5 @@
 // ignore_for_file: prefer_const_constructors
-
+import 'package:cloud_firestore/cloud_firestore.dart';
 import "package:flutter/material.dart";
 import "package:nutrilab/authservice.dart";
 import 'dart:developer';
@@ -20,6 +20,24 @@ class _GoToRegisterPageState extends State<GoToRegisterPage> {
   final _password = TextEditingController();
   final _mobile = TextEditingController();
   @override
+  void dispose() {
+    super.dispose();
+    _email.dispose();
+    _password.dispose();
+    _name.dispose();
+    _mobile.dispose();
+  }
+
+  Future addUser(String name, email, int mobile) async{
+    await FirebaseFirestore.instance.collection('users').doc(email).set({
+      'name':name,
+      'email':email,
+      'mobile':mobile,
+      'liked':[],
+      'cart':{},
+      'address':{},
+    });
+  }
   Widget build(BuildContext context) {
     return Scaffold(
       // Color.fromARGB(255, 250, 240, 222),
@@ -152,9 +170,10 @@ class _GoToRegisterPageState extends State<GoToRegisterPage> {
 
   _signup() async {
     final user =
-        await _auth.createUserWithEmailAndPassword(_email.text, _password.text);
+        await _auth.createUserWithEmailAndPassword(context,_email.text, _password.text);
     if (user != null) {
       log("User Created Successfully");
+      addUser(_name.text, _email.text, int.parse(_mobile.text) );
       goToHome(context);
     }
   }

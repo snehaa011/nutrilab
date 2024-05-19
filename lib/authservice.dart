@@ -1,38 +1,39 @@
 import 'dart:developer';
 import 'package:firebase_auth/firebase_auth.dart';
-import './error.dart';
+import 'package:flutter/material.dart';
+import 'package:nutrilab/snackbar.dart';
 
 class AuthService {
   final _auth = FirebaseAuth.instance;
   Future<User?> createUserWithEmailAndPassword(
-      String email, String password) async {
+      BuildContext context, String email, String password) async {
     try {
       final cred = await _auth.createUserWithEmailAndPassword(
           email: email, password: password);
       return cred.user;
     } catch (e) {
-      log("Error creating user: $e");
+      showNotif(context,"Error: $e");
     }
     return null;
   }
 
   Future<User?> loginUserWithEmailAndPassword(
-      String email, String password) async {
+      BuildContext context, String email, String password) async {
     try {
       final cred = await _auth.signInWithEmailAndPassword(
           email: email, password: password);
       return cred.user;
     } catch (e) {
-      log("Error logging in: $e");
+      showNotif(context,"Error: $e");
     }
     return null;
   }
 
-  Future <void> signout() async{
+  Future <void> signout(BuildContext context) async{
     try{
       await _auth.signOut();
     }catch(e){
-      log("Error signing out: $e");
+      showNotif(context,"Error: $e");
     }
   }
 }

@@ -1,6 +1,9 @@
+import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:nutrilab/menudetails.dart';
+import './snackbar.dart';
 
 class MenuItemWidget extends StatefulWidget {
   final String name;
@@ -32,88 +35,113 @@ class _MenuItemWidgetState extends State<MenuItemWidget> {
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
   @override
-  // void initState() {
-  //   super.initState();
-  //   _checkIfLiked();
-  // }
+  void initState() {
+    super.initState();
+    _checkIfLiked();
+  }
 
-  // Future<void> _checkIfLiked() async {
-  //   User? currentUser = _auth.currentUser;
-  //   if (currentUser == null) {
-  //     // Handle user not logged in
-  //     return;
-  //   }
+  Future<void> _checkIfLiked() async {
+    User? currentUser = _auth.currentUser;
+    if (currentUser == null) {
+      // Handle user not logged in
+      return;
+    }
 
-  //   String userId = currentUser.uid;
-  //   DocumentReference userRef = FirebaseFirestore.instance.collection('users').doc(userId);
+    String? userId = currentUser.email;
+    DocumentReference userRef =
+        FirebaseFirestore.instance.collection('users').doc(userId);
 
-  //   DocumentSnapshot userDoc = await userRef.get();
-  //   List liked = userDoc['liked'] ?? [];
+    try {
+      DocumentSnapshot userDoc = await userRef.get();
+      // Map<String, dynamic>? userData =
+      //     userDoc.data() as Map<String, dynamic>?; // Get user data
+      List liked = userDoc['liked'] ?? [];
 
-  //   if (liked.contains(widget.itemId)) {
-  //     setState(() {
-  //       isLiked = true;
-  //     });
-  //   }
-  // }
+      if (liked.contains(widget.itemId)) {
+        setState(() {
+          isLiked = true;
+        });
+      }
+    } catch (e) {
+      showNotif(context,'Error: $e');
+    }
+  }
 
-  // Future<void> _toggleLiked() async {
-  //   User? currentUser = _auth.currentUser;
-  //   if (currentUser == null) {
-  //     // Handle user not logged in
-  //     return;
-  //   }
+  Future<void> _toggleLiked() async {
+    User? currentUser = _auth.currentUser;
+    if (currentUser == null) {
+      // Handle user not logged in
+      return;
+    }
 
-  //   String userId = currentUser.uid;
-  //   DocumentReference userRef = FirebaseFirestore.instance.collection('users').doc(userId);
+    String? userId = currentUser.email;
+    DocumentReference userRef =
+        FirebaseFirestore.instance.collection('users').doc(userId);
+    try {
+      if (isLiked) {
+        // If item is already liked, remove it from the array
+        await userRef.update({
+          'liked': FieldValue.arrayRemove([widget.itemId])
+        });
+        setState(() {
+          isLiked = false;
+        });
+        showNotif(context,'Item removed from liked!');
+      } else {
+        // If item is not liked, add it to the array
+        await userRef.update({
+          'liked': FieldValue.arrayUnion([widget.itemId])
+        });
+        setState(() {
+          isLiked = true;
+        });
+        showNotif(context,'Item added to liked!');
+      }
+    } catch (e) {
+      showNotif(context,'Error: $e');
+    }
+  }
 
-  //   if (isLiked) {
-  //     // If item is already liked, remove it from the array
-  //     await userRef.update({
-  //       'liked': FieldValue.arrayRemove([widget.itemId])
-  //     });
-  //     setState(() {
-  //       isLiked = false;
-  //     });
-  //   } else {
-  //     // If item is not liked, add it to the array
-  //     await userRef.update({
-  //       'liked': FieldValue.arrayUnion([widget.itemId])
-  //     });
-  //     setState(() {
-  //       isLiked = true;
-  //     });
-  //   }
-  // }
-
-  // Future<void> _addToCart() async {
-  //   User? currentUser = _auth.currentUser;
-  //   if (currentUser == null) {
-  //     // Handle user not logged in
-  //     return;
-  //   }
-
-  //   String userId = currentUser.uid;
-  //   DocumentReference userRef = FirebaseFirestore.instance.collection('users').doc(userId);
-
-  //   await userRef.update({
-  //     'cart': FieldValue.arrayUnion([widget.itemId])
-  //   });
-  // }
-
-  @override
   Widget build(BuildContext context) {
+    // Get screen width and height using MediaQuery
+    double screenWidth = MediaQuery.of(context).size.width;
+    double screenHeight = MediaQuery.of(context).size.height;
+
+    // Calculate width for each grid item (considering cross axis count of 2)
+    double itemWidth =
+        (screenWidth - 30) / 2; // 30 is for padding/margin adjustment
+    double itemHeight = screenHeight * 0.35; // Adjust height as necessary
+
     return Container(
-      height: 280,
-      width: 180,
+      height: itemHeight,
+      width: itemWidth,
+      margin: EdgeInsets.all(2), // Add margin for spacing between items
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
-            backgroundColor: Colors.white,
-            padding: EdgeInsets.zero,
-            elevation: 0,
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10))),
-        onPressed: () {},
+          backgroundColor: Colors.white,
+          padding: EdgeInsets.zero,
+          elevation: 0,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
+          ),
+        ),
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => DetailsPage(
+                cal: widget.cal,
+                des: widget.des,
+                img: widget.img,
+                ingr: widget.ingr,
+                itemId: widget.itemId,
+                name: widget.name,
+                price: widget.price,
+                type: widget.type,
+              ),
+            ),
+          );
+        },
         child: Column(
           children: [
             Stack(
@@ -149,32 +177,49 @@ class _MenuItemWidgetState extends State<MenuItemWidget> {
                                   constraints: BoxConstraints.tightFor(),
                                   padding: EdgeInsets.fromLTRB(10, 5, 10, 5),
                                   decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.circular(20),
-                                  border: Border.all(color: Color.fromARGB(255, 125, 172, 106), width: 1)
-                                ),
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(20),
+                                    border: Border.all(
+                                      color: Color.fromARGB(255, 125, 172, 106),
+                                      width: 1,
+                                    ),
+                                  ),
                                   // alignment: Alignment.topLeft,
-                                  child: Text(widget.type, style: TextStyle(color: Color.fromARGB(255, 24, 79, 87), fontSize: 14),)),
+                                  child: Text(
+                                    widget.type,
+                                    style: TextStyle(
+                                      color: Color.fromARGB(255, 24, 79, 87),
+                                      fontSize: screenWidth *
+                                          0.028, // Adjust font size based on screen width
+                                    ),
+                                  ),
+                                ),
                               ),
-                              Text("Rs. "+ widget.price.toString(), 
-                            style: TextStyle(
-                              fontFamily: 'Lalezar',
-                              color: Color.fromARGB(255, 24, 79, 87),
-                              fontSize: 16,
-                            ),),
+                              Text(
+                                "Rs. " + widget.price.toString(),
+                                style: TextStyle(
+                                  fontFamily: 'Lalezar',
+                                  color: Color.fromARGB(255, 24, 79, 87),
+                                  fontSize: screenWidth *
+                                      0.032, // Adjust font size based on screen width
+                                ),
+                              ),
                             ],
                           ),
-                          SizedBox(
-                            height:10,
-                          ),
-                          Align(
-                            alignment: Alignment.topLeft,
-                            child: Text(widget.name.toUpperCase(), 
-                            style: TextStyle(
-                              fontFamily: 'Lalezar',
-                              color: Color.fromARGB(255, 24, 79, 87),
-                              fontSize: 17,
-                            ),),
+                          SizedBox(height: screenHeight * 0.01),
+                          SingleChildScrollView(
+                            child: Align(
+                              alignment: Alignment.topLeft,
+                              child: Text(
+                                widget.name.toUpperCase(),
+                                style: TextStyle(
+                                  fontFamily: 'Lalezar',
+                                  color: Color.fromARGB(255, 24, 79, 87),
+                                  fontSize: screenWidth *
+                                      0.035, // Adjust font size based on screen width
+                                ),
+                              ),
+                            ),
                           ),
                         ],
                       ),
@@ -185,33 +230,22 @@ class _MenuItemWidgetState extends State<MenuItemWidget> {
                   alignment: Alignment.topRight,
                   child: Container(
                     padding: EdgeInsets.fromLTRB(0, 10, 10, 0),
-                    child: Column(
-                      children: [
-                        Container(
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(30),
-                            border: Border.all(color: Color.fromARGB(255, 125, 172, 106), width: 1)
-                          ),
-                          child: IconButton(
-                            
-                              icon: Icon(Icons.shopping_cart_outlined, color: const Color.fromARGB(255, 127, 189, 129),),
-                              onPressed: () {} //_addToCart,
-                              ),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(30),
+                        border: Border.all(
+                          color: Color.fromARGB(255, 125, 172, 106),
+                          width: 1,
                         ),
-                        SizedBox(height: 5),
-                        Container(
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(30),
-                            border: Border.all(color: Color.fromARGB(255, 125, 172, 106), width: 1),
-                          ),
-                          child: IconButton(
-                              icon: Icon(Icons.favorite_border, color: const Color.fromARGB(255, 127, 189, 129),),
-                              onPressed: () {} //_addToCart,
-                              ),
+                      ),
+                      child: IconButton(
+                        icon: Icon(
+                          isLiked ? Icons.favorite : Icons.favorite_border,
+                          color: const Color.fromARGB(255, 127, 189, 129),
                         ),
-                      ],
+                        onPressed: _toggleLiked,
+                      ),
                     ),
                   ),
                 ),

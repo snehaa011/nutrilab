@@ -180,6 +180,6 @@ class _GoToLoginPageState extends State<GoToLoginPage> {
   }
 
   _login() async{
-    await _auth.loginUserWithEmailAndPassword(_email.text, _password.text);
+    await _auth.loginUserWithEmailAndPassword(context,_email.text, _password.text);
   }
 }
