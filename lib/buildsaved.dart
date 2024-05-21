@@ -8,10 +8,10 @@ class BuildSaved extends StatefulWidget {
   const BuildSaved({super.key});
 
   @override
-  State<BuildSaved> createState() => _BuildSavedState();
+  State<BuildSaved> createState() => BuildSavedState();
 }
 
-class _BuildSavedState extends State<BuildSaved> {
+class BuildSavedState extends State<BuildSaved> {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   List liked = [];
   List<DocumentSnapshot> documents = [];
@@ -21,6 +21,15 @@ class _BuildSavedState extends State<BuildSaved> {
     _initializeLikedItems();
   }
 
+  void rebuild(){
+    if (mounted){
+      setState(() {
+        liked=[];
+        documents=[];
+      });
+      _initializeLikedItems();
+    }
+  }
   Future<void> _initializeLikedItems() async {
     await _checkLiked();
     await fetchDocuments(liked);
@@ -45,9 +54,12 @@ class _BuildSavedState extends State<BuildSaved> {
       DocumentSnapshot userDoc = await userRef.get();
       // Map<String, dynamic>? userData =
       //     userDoc.data() as Map<String, dynamic>?; // Get user data
-      setState(() {
+      if (mounted){
+        setState(() {
         liked = userDoc['liked'] ?? [];
       });
+      }
+      
     } catch (e) {
       log('Error: $e');
     }
@@ -61,9 +73,11 @@ class _BuildSavedState extends State<BuildSaved> {
           .get();
 
       if (docSnapshot.exists) {
-        setState(() {
+        if (mounted){
+          setState(() {
           documents.add(docSnapshot);
         });
+        }
       }
     }
   }
@@ -83,7 +97,7 @@ class _BuildSavedState extends State<BuildSaved> {
             ),
           );
         }
-        if (documents.isEmpty) {
+        if (!snapshot.hasData || snapshot.data!.docs.isEmpty || documents.isEmpty){
           return Center(
             child: Text(
               'No items saved.',
@@ -123,3 +137,5 @@ class _BuildSavedState extends State<BuildSaved> {
     );
   }
 }
+
+

@@ -31,7 +31,7 @@ class DetailsPage extends StatefulWidget {
 
 class _DetailsPageState extends State<DetailsPage> {
   bool isLiked = false;
-  int quantity=0;
+  int quantity = 0;
   // bool hasItem = false; //means it has atleast one item in cart
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
@@ -46,7 +46,7 @@ class _DetailsPageState extends State<DetailsPage> {
     Future<int> n = _fetchQt();
     n.then((value) {
       setState(() {
-        quantity=value;
+        quantity = value;
       });
     });
   }
@@ -119,7 +119,7 @@ class _DetailsPageState extends State<DetailsPage> {
         setState(() {
           isLiked = false;
         });
-        showNotif(context,'Item removed from liked!');
+        showNotif(context, 'Item removed from liked!');
       } else {
         // If item is not liked, add it to the array
         await userRef.update({
@@ -128,7 +128,7 @@ class _DetailsPageState extends State<DetailsPage> {
         setState(() {
           isLiked = true;
         });
-        showNotif(context,'Item added to liked!');
+        showNotif(context, 'Item added to liked!');
       }
     } catch (e) {
       log("Error fetching user document: $e");
@@ -155,10 +155,10 @@ class _DetailsPageState extends State<DetailsPage> {
 
       cart[widget.itemId] = (cart[widget.itemId] ?? 1) - 1;
       setState(() {
-        quantity=cart[widget.itemId];
+        quantity = cart[widget.itemId];
       });
       await userRef.update({'cart': cart}); // Update user document
-      showNotif(context,'1 Item removed from cart!');
+      showNotif(context, '1 Item removed from cart!');
     } catch (e) {
       log("Error fetching user document: $e");
       // Handle error
@@ -184,10 +184,10 @@ class _DetailsPageState extends State<DetailsPage> {
       Map<String, dynamic> cart = userData?['cart'] ?? {}; // Get cart data
       cart[widget.itemId] = (cart[widget.itemId] ?? 0) + 1; // Update cart
       setState(() {
-        quantity=cart[widget.itemId];
+        quantity = cart[widget.itemId];
       });
       await userRef.update({'cart': cart}); // Update user document
-      showNotif(context,'1 Item added to cart!');
+      showNotif(context, '1 Item added to cart!');
     } catch (e) {
       log("Error fetching user document: $e");
       // Handle error
@@ -199,62 +199,64 @@ class _DetailsPageState extends State<DetailsPage> {
     double buttonWidth = MediaQuery.of(context).size.width * 0.07;
     double containerWidth = MediaQuery.of(context).size.width * 0.07;
     double height = MediaQuery.of(context).size.height * 0.05;
-    return Scaffold(
-      body: Column(
-        children: [
-          Stack(
-            children: [
-              Column(children: [
-                Stack(
-                  alignment: Alignment.bottomLeft,
-                  children: [
-                    AspectRatio(
-                      aspectRatio: 16 / 9,
-                      child: Stack(
-                        fit: StackFit.expand,
-                        children: [
-                          Image.network(
-                            widget.img,
-                            fit: BoxFit.cover,
-                          ),
-                          Container(
-                            color: Colors.black.withOpacity(
-                                0.5), // Add black background with 50% opacity
-                          ),
-                        ],
-                      ),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.only(left: 20),
-                      child: Stack(
-                        children: [
-                          Text(
-                            widget.name.toUpperCase(),
-                            style: TextStyle(
-                              fontSize: 30,
-                              fontFamily: 'Lalezar',
-                              foreground: Paint()
-                                ..style = PaintingStyle.stroke
-                                ..strokeWidth = 1.5
-                                ..color = Color.fromARGB(255, 153, 222, 233),
+    return SafeArea(
+      child: Scaffold(
+        body: Column(
+          children: [
+            Stack(
+              children: [
+                Column(children: [
+                  Stack(
+                    alignment: Alignment.bottomLeft,
+                    children: [
+                      AspectRatio(
+                        aspectRatio: MediaQuery.of(context).size.width /
+                            (MediaQuery.of(context).size.height *
+                                0.4), // Set aspect ratio to occupy half of the page
+                        child: Stack(
+                          fit: StackFit.expand,
+                          children: [
+                            Image.network(
+                              widget.img,
+                              fit: BoxFit.cover,
                             ),
-                          ),
-                          Text(
-                            widget.name.toUpperCase(),
-                            style: TextStyle(
-                              fontFamily: 'Lalezar',
-                              color: Color.fromARGB(255, 24, 79, 87),
-                              fontSize: 30,
+                            Container(
+                              color: Colors.black.withOpacity(
+                                  0.5), // Add black background with 50% opacity
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
-                    ),
-                  ],
-                ),
-                SingleChildScrollView(
-                  child: Container(
-                    height: MediaQuery.of(context).size.height - 300,
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 20),
+                        child: Stack(
+                          children: [
+                            Text(
+                              widget.name.toUpperCase(),
+                              style: TextStyle(
+                                fontSize: 30,
+                                fontFamily: 'Lalezar',
+                                foreground: Paint()
+                                  ..style = PaintingStyle.stroke
+                                  ..strokeWidth = 1.5
+                                  ..color = Color.fromARGB(255, 153, 222, 233),
+                              ),
+                            ),
+                            Text(
+                              widget.name.toUpperCase(),
+                              style: TextStyle(
+                                fontFamily: 'Lalezar',
+                                color: Color.fromARGB(255, 24, 79, 87),
+                                fontSize: 30,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                  Container(
+                    height: MediaQuery.of(context).size.height *0.6,
                     padding: EdgeInsets.all(20),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -271,8 +273,8 @@ class _DetailsPageState extends State<DetailsPage> {
                                     color: Colors.white,
                                     borderRadius: BorderRadius.circular(20),
                                     border: Border.all(
-                                        color:
-                                            Color.fromARGB(255, 125, 172, 106),
+                                        color: Color.fromARGB(
+                                            255, 125, 172, 106),
                                         width: 1)),
                                 // alignment: Alignment.topLeft,
                                 child: Text(
@@ -293,25 +295,28 @@ class _DetailsPageState extends State<DetailsPage> {
                             ),
                           ],
                         ),
-                        Text(
-                          widget.des,
-                          style:
-                              TextStyle(fontSize: 14, fontFamily: 'Gayathri'),
+                        Align(
+                          alignment: Alignment.centerLeft,
+                          child: Text(
+                            widget.des,
+                            style:
+                                TextStyle(fontSize: 14, fontFamily: 'Gayathri'),
+                          ),
                         ),
                         Align(
                           alignment: Alignment.centerLeft,
                           child: Text(
                             "Calories: " + widget.cal.toString() + "cal",
-                            style:
-                                TextStyle(fontSize: 17, fontFamily: 'Gayathri'),
+                            style: TextStyle(
+                                fontSize: 17, fontFamily: 'Gayathri'),
                           ),
                         ),
                         Align(
                           alignment: Alignment.centerLeft,
                           child: Text(
                             "Ingredients: " + widget.ingr,
-                            style:
-                                TextStyle(fontSize: 17, fontFamily: 'Gayathri'),
+                            style: TextStyle(
+                                fontSize: 17, fontFamily: 'Gayathri'),
                           ),
                         ),
                         Container(
@@ -321,18 +326,20 @@ class _DetailsPageState extends State<DetailsPage> {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Padding(
-                                padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.005),
-                                child: Text(
-                                  "Quantity: ",
-                                          style: TextStyle(
-                                            fontSize: 20,
-                                            fontWeight: FontWeight.w500,
-                                            fontFamily: 'Gayathri',
-                                            color: Color.fromARGB(255, 24, 79, 87),)
-                                ),
+                                padding: EdgeInsets.only(
+                                    top: MediaQuery.of(context).size.height *
+                                        0.005),
+                                child: Text("Quantity: ",
+                                    style: TextStyle(
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.w500,
+                                      fontFamily: 'Gayathri',
+                                      color: Color.fromARGB(255, 24, 79, 87),
+                                    )),
                               ),
                               SizedBox(
-                                width: MediaQuery.of(context).size.width * 0.03,
+                                width:
+                                    MediaQuery.of(context).size.width * 0.03,
                               ),
                               Container(
                                 height: height,
@@ -345,9 +352,10 @@ class _DetailsPageState extends State<DetailsPage> {
                                     color: Color.fromARGB(255, 24, 79, 87),
                                   ),
                                   style: ElevatedButton.styleFrom(
-                                    side: BorderSide(color: Color.fromARGB(255, 24, 79, 87),),
-                                    backgroundColor:
-                                        Colors.white,
+                                    side: BorderSide(
+                                      color: Color.fromARGB(255, 24, 79, 87),
+                                    ),
+                                    backgroundColor: Colors.white,
                                     shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.only(
                                         topLeft: Radius.circular(10),
@@ -359,15 +367,19 @@ class _DetailsPageState extends State<DetailsPage> {
                                 ),
                               ),
                               SizedBox(
-                                width:MediaQuery.of(context).size.width * 0.005 ,
+                                width:
+                                    MediaQuery.of(context).size.width * 0.005,
                               ),
                               Container(
                                 decoration: BoxDecoration(
-                                  border: Border.all(color: Color.fromARGB(255, 24, 79, 87),)
-                                ),
+                                    border: Border.all(
+                                  color: Color.fromARGB(255, 24, 79, 87),
+                                )),
                                 height: height,
                                 width: containerWidth,
-                                padding: EdgeInsets.only(top:MediaQuery.of(context).size.height * 0.005),
+                                padding: EdgeInsets.only(
+                                    top: MediaQuery.of(context).size.height *
+                                        0.007),
                                 // color: Color.fromARGB(255, 255, 255, 255),
                                 alignment: Alignment.center,
                                 child: Text(
@@ -376,13 +388,13 @@ class _DetailsPageState extends State<DetailsPage> {
                                     fontSize: 20,
                                     fontWeight: FontWeight.w500,
                                     fontFamily: 'Gayathri',
-                                    color:
-                                        Color.fromARGB(255, 24, 79, 87),
+                                    color: Color.fromARGB(255, 24, 79, 87),
                                   ),
                                 ),
                               ),
                               SizedBox(
-                                width:MediaQuery.of(context).size.width * 0.005 ,
+                                width:
+                                    MediaQuery.of(context).size.width * 0.005,
                               ),
                               Container(
                                 height: height,
@@ -393,11 +405,11 @@ class _DetailsPageState extends State<DetailsPage> {
                                     Icons.add,
                                     color: Color.fromARGB(255, 24, 79, 87),
                                   ),
-
                                   style: ElevatedButton.styleFrom(
-                                    side: BorderSide(color: Color.fromARGB(255, 24, 79, 87),),
-                                    backgroundColor:
-                                        Colors.white,
+                                    side: BorderSide(
+                                      color: Color.fromARGB(255, 24, 79, 87),
+                                    ),
+                                    backgroundColor: Colors.white,
                                     shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.only(
                                         topRight: Radius.circular(10),
@@ -411,7 +423,7 @@ class _DetailsPageState extends State<DetailsPage> {
                             ],
                           ),
                         ),
-
+                  
                         //     ElevatedButton(
                         //   onPressed: _addToCart,
                         //   child: Text(
@@ -434,47 +446,47 @@ class _DetailsPageState extends State<DetailsPage> {
                       ],
                     ),
                   ),
-                ),
-              ]),
-              Positioned(
-                top: 10,
-                right: 10,
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: Color.fromARGB(255, 231, 228, 228),
-                    borderRadius: BorderRadius.circular(30),
-                  ),
-                  child: IconButton(
-                    icon: Icon(
-                      isLiked ? Icons.favorite : Icons.favorite_border,
-                      color: Color.fromARGB(255, 24, 79, 87),
+                ]),
+                Positioned(
+                  top: 10,
+                  right: 10,
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: Color.fromARGB(255, 231, 228, 228),
+                      borderRadius: BorderRadius.circular(30),
                     ),
-                    onPressed: _toggleLiked,
-                  ),
-                ),
-              ),
-              Positioned(
-                top: 10,
-                left: 10,
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: Color.fromARGB(255, 231, 228, 228),
-                    borderRadius: BorderRadius.circular(30),
-                  ),
-                  child: IconButton(
-                    icon: Icon(
-                      Icons.arrow_back,
-                      color: Color.fromARGB(255, 24, 79, 87),
+                    child: IconButton(
+                      icon: Icon(
+                        isLiked ? Icons.favorite : Icons.favorite_border,
+                        color: Color.fromARGB(255, 24, 79, 87),
+                      ),
+                      onPressed: _toggleLiked,
                     ),
-                    onPressed: () {
-                      Navigator.pop(context);
-                    }, //_addToCart,
                   ),
                 ),
-              ),
-            ],
-          ),
-        ],
+                Positioned(
+                  top: 10,
+                  left: 10,
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: Color.fromARGB(255, 231, 228, 228),
+                      borderRadius: BorderRadius.circular(30),
+                    ),
+                    child: IconButton(
+                      icon: Icon(
+                        Icons.arrow_back,
+                        color: Color.fromARGB(255, 24, 79, 87),
+                      ),
+                      onPressed: () {
+                        Navigator.pop(context);
+                      }, //_addToCart,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }

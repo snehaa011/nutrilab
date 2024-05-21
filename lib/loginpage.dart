@@ -1,6 +1,5 @@
 // ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:nutrilab/authservice.dart';
 import 'package:nutrilab/forgot.dart';
 import 'package:nutrilab/registerpage.dart';
@@ -16,19 +15,31 @@ class GoToLoginPage extends StatefulWidget {
 class _GoToLoginPageState extends State<GoToLoginPage> {
   final _auth = AuthService();
   final _email = TextEditingController();
-  final _password =TextEditingController();
+  final _password = TextEditingController();
+
   @override
   void dispose() {
-    super.dispose();
     _email.dispose();
     _password.dispose();
+    super.dispose();
   }
+
+  @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+
+    // Base font sizes
+    final double baseFontSize = screenWidth * 0.05;
+    final double smallFontSize = baseFontSize * 0.65;
+    final double mediumFontSize = baseFontSize * 0.8;
+    final double largeFontSize = baseFontSize*1.4;
+    final double extraLargeFontSize = baseFontSize * 2.5;
+
     return Scaffold(
       backgroundColor: Color.fromARGB(255, 225, 226, 209),
       body: Center(
         child: Container(
-          width: MediaQuery.of(context).size.width - 40,
+          width: screenWidth - 40,
           child: Column(
             children: [
               Spacer(
@@ -40,7 +51,7 @@ class _GoToLoginPageState extends State<GoToLoginPage> {
                   Text(
                     'NUTRILAB',
                     style: TextStyle(
-                      fontSize: 60,
+                      fontSize: extraLargeFontSize,
                       fontFamily: 'Genos',
                       fontWeight: FontWeight.w500,
                       foreground: Paint()
@@ -53,7 +64,7 @@ class _GoToLoginPageState extends State<GoToLoginPage> {
                   Text(
                     'NUTRILAB',
                     style: TextStyle(
-                      fontSize: 60,
+                      fontSize: extraLargeFontSize,
                       fontWeight: FontWeight.w500,
                       fontFamily: 'Genos',
                       color: Color.fromARGB(255, 122, 185, 120),
@@ -65,21 +76,23 @@ class _GoToLoginPageState extends State<GoToLoginPage> {
               Text(
                 "Welcome back, you have been missed!",
                 style: TextStyle(
-                    fontFamily: 'Gayathri',
-                    fontWeight: FontWeight.w700,
-                    fontSize: 20),
+                  fontFamily: 'Gayathri',
+                  fontWeight: FontWeight.w700,
+                  fontSize: mediumFontSize,
+                ),
               ),
               Spacer(flex: 4),
               TextFormField(
                 controller: _email,
                 cursorColor: Color.fromARGB(255, 24, 79, 87),
                 style: TextStyle(
-                    color: const Color.fromARGB(255, 0, 0, 0),
-                    fontFamily: 'Gayathri',
-                    fontWeight: FontWeight.w700,
-                    fontSize: 18),
+                  color: const Color.fromARGB(255, 0, 0, 0),
+                  fontFamily: 'Gayathri',
+                  fontWeight: FontWeight.w700,
+                  fontSize: mediumFontSize,
+                ),
                 decoration: myDecorationField.copyWith(
-                  hintText: 'Email'
+                  hintText: 'Email',
                 ),
                 keyboardType: TextInputType.emailAddress,
               ),
@@ -89,31 +102,33 @@ class _GoToLoginPageState extends State<GoToLoginPage> {
                 obscureText: true,
                 cursorColor: Color.fromARGB(255, 24, 79, 87),
                 style: TextStyle(
-                    color: const Color.fromARGB(255, 0, 0, 0),
-                    fontFamily: 'Gayathri', fontWeight: FontWeight.w700,
-                    fontSize: 18,),
+                  color: const Color.fromARGB(255, 0, 0, 0),
+                  fontFamily: 'Gayathri',
+                  fontWeight: FontWeight.w700,
+                  fontSize: mediumFontSize,
+                ),
                 decoration: myDecorationField.copyWith(
-                  hintText: 'Password'
+                  hintText: 'Password',
                 ),
                 keyboardType: TextInputType.visiblePassword,
               ),
               Align(
                 alignment: Alignment.topRight,
                 child: TextButton(
-                  onPressed: () => {
+                  onPressed: () {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
                         builder: (context) => ForgotPage(),
                       ),
-                    ),
+                    );
                   },
                   child: Text(
                     'Forgot Password?',
                     style: TextStyle(
                       fontWeight: FontWeight.w700,
                       fontFamily: 'Gayathri',
-                      fontSize: 17,
+                      fontSize: smallFontSize,
                       color: Color.fromARGB(255, 24, 79, 87),
                     ),
                   ),
@@ -121,13 +136,13 @@ class _GoToLoginPageState extends State<GoToLoginPage> {
               ),
               Spacer(),
               SizedBox(
-                width: MediaQuery.of(context).size.width - 40,
+                width: screenWidth - 40,
                 child: ElevatedButton(
                   onPressed: _login,
                   child: Text(
                     "SIGN IN",
                     style: TextStyle(
-                      fontSize: 35,
+                      fontSize: largeFontSize,
                       fontWeight: FontWeight.w500,
                       fontFamily: 'Genos',
                       color: Color.fromARGB(255, 225, 226, 209),
@@ -149,24 +164,33 @@ class _GoToLoginPageState extends State<GoToLoginPage> {
                   Text(
                     "Not a member?",
                     style: TextStyle(
-                        color: Color.fromARGB(255, 0, 0, 0),
-                        fontFamily: 'Gayathri',
-                        fontWeight: FontWeight.w700,
-                        fontSize: 17),
+                      color: Color.fromARGB(255, 0, 0, 0),
+                      fontFamily: 'Gayathri',
+                      fontWeight: FontWeight.w700,
+                      fontSize: smallFontSize,
+                    ),
                   ),
                   TextButton(
                     style: TextButton.styleFrom(
                       splashFactory: NoSplash.splashFactory,
-                      padding: EdgeInsets.all(5)
+                      padding: EdgeInsets.all(5),
                     ),
-                    onPressed: () {Navigator.push(context, MaterialPageRoute(builder: (context) => GoToRegisterPage(),),); },
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => GoToRegisterPage(),
+                        ),
+                      );
+                    },
                     child: Text(
                       "Register Now",
                       style: TextStyle(
-                          color: Color.fromARGB(255, 24, 79, 87),
-                          fontFamily: 'Gayathri',
-                          fontWeight: FontWeight.w700,
-                          fontSize: 18),
+                        color: Color.fromARGB(255, 24, 79, 87),
+                        fontFamily: 'Gayathri',
+                        fontWeight: FontWeight.w700,
+                        fontSize: mediumFontSize,
+                      ),
                     ),
                   ),
                 ],
@@ -179,7 +203,11 @@ class _GoToLoginPageState extends State<GoToLoginPage> {
     );
   }
 
-  _login() async{
-    await _auth.loginUserWithEmailAndPassword(context,_email.text, _password.text);
+  _login() async {
+    await _auth.loginUserWithEmailAndPassword(
+      context,
+      _email.text,
+      _password.text,
+    );
   }
 }

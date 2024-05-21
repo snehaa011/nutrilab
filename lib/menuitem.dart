@@ -2,6 +2,7 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:nutrilab/buildsaved.dart';
 import 'package:nutrilab/menudetails.dart';
 import './snackbar.dart';
 
@@ -58,9 +59,12 @@ class _MenuItemWidgetState extends State<MenuItemWidget> {
       List liked = userDoc['liked'] ?? [];
 
       if (liked.contains(widget.itemId)) {
-        setState(() {
+        if (mounted){
+          setState(() {
           isLiked = true;
         });
+        }
+        
       }
     } catch (e) {
       log('Error: $e');
@@ -83,18 +87,25 @@ class _MenuItemWidgetState extends State<MenuItemWidget> {
         await userRef.update({
           'liked': FieldValue.arrayRemove([widget.itemId])
         });
-        setState(() {
+        if (mounted){
+          setState(() {
           isLiked = false;
         });
+        }
+        
         showNotif(context,'Item removed from liked!');
+        context.findAncestorStateOfType<BuildSavedState>()?.rebuild();
       } else {
         // If item is not liked, add it to the array
         await userRef.update({
           'liked': FieldValue.arrayUnion([widget.itemId])
         });
-        setState(() {
+        if (mounted){
+          setState(() {
           isLiked = true;
         });
+        }
+        
         showNotif(context,'Item added to liked!');
       }
     } catch (e) {
@@ -109,7 +120,7 @@ class _MenuItemWidgetState extends State<MenuItemWidget> {
 
     // Calculate width for each grid item (considering cross axis count of 2)
     double itemWidth =
-        (screenWidth - 30) / 2; // 30 is for padding/margin adjustment
+        (screenWidth - 26) / 2; // 30 is for padding/margin adjustment
     double itemHeight = screenHeight * 0.35; // Adjust height as necessary
 
     return Container(
@@ -156,7 +167,7 @@ class _MenuItemWidgetState extends State<MenuItemWidget> {
                         bottomRight: Radius.circular(0),
                       ),
                       child: AspectRatio(
-                        aspectRatio: 16 / 13, // Adjust as necessary
+                        aspectRatio: 16/11, // Adjust as necessary
                         child: Image.network(
                           widget.img,
                           fit: BoxFit.cover,
@@ -207,16 +218,21 @@ class _MenuItemWidgetState extends State<MenuItemWidget> {
                             ],
                           ),
                           SizedBox(height: screenHeight * 0.01),
-                          SingleChildScrollView(
-                            child: Align(
-                              alignment: Alignment.topLeft,
-                              child: Text(
-                                widget.name.toUpperCase(),
-                                style: TextStyle(
-                                  fontFamily: 'Lalezar',
-                                  color: Color.fromARGB(255, 24, 79, 87),
-                                  fontSize: screenWidth *
-                                      0.035, // Adjust font size based on screen width
+                          Container(
+                            // height: itemHeight*0.15,
+                            child: SingleChildScrollView(
+                              scrollDirection: Axis.vertical,
+                              child: Align(
+                                alignment: Alignment.centerLeft,
+                                child: Text(
+                                  // overflow: TextOverflow.ellipsis,
+                                  widget.name.toUpperCase(),
+                                  style: TextStyle(
+                                    fontFamily: 'Lalezar',
+                                    color: Color.fromARGB(255, 24, 79, 87),
+                                    fontSize: itemWidth *
+                                        0.075, // Adjust font size based on screen width
+                                  ),
                                 ),
                               ),
                             ),

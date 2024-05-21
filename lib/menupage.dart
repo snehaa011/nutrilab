@@ -17,8 +17,13 @@ class _GoToMenuPageState extends State<GoToMenuPage> {
 
   @override
   Widget build(BuildContext context) {
+    final double screenWidth = MediaQuery.of(context).size.width;
+final double screenHeight = MediaQuery.of(context).size.height;
+
+final double mainAxisSpacing = screenWidth * 0.02; // Adjust as needed
+final double crossAxisSpacing = screenWidth * 0.02; // Adjust as nee
     return Padding(
-      padding: const EdgeInsets.fromLTRB(25, 10, 25, 10),
+      padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -33,7 +38,7 @@ class _GoToMenuPageState extends State<GoToMenuPage> {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10),
+            padding: const EdgeInsets.symmetric(horizontal: 25, vertical:10),
             child: TextField(
               controller: _searchController,
               cursorColor: Color.fromARGB(255, 24, 79, 87),
@@ -89,7 +94,7 @@ class _GoToMenuPageState extends State<GoToMenuPage> {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.only(top: 10),
+            padding: const EdgeInsets.only(top: 5, left:25),
             child: Text(
               'Categories',
               style: TextStyle(
@@ -167,30 +172,33 @@ class _GoToMenuPageState extends State<GoToMenuPage> {
                   );
                 }
 
-                return GridView.builder(
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
-                    childAspectRatio:
-                        0.75, // Adjusts the height and width ratio
-                    mainAxisSpacing: 10.0,
-                    crossAxisSpacing: 10.0,
+                return Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 25, vertical:5),
+                  child: GridView.builder(
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      childAspectRatio: 0.75, 
+                          // 0.75, // Adjusts the height and width ratio
+                      mainAxisSpacing: mainAxisSpacing,
+                      crossAxisSpacing: crossAxisSpacing,
+                    ),
+                    itemCount: filteredMenuItems.length,
+                    itemBuilder: (context, index) {
+                      final doc = filteredMenuItems[index];
+                      final data = doc.data() as Map<String, dynamic>;
+                  
+                      return MenuItemWidget(
+                        name: data['Name'],
+                        des: data['Description'],
+                        img: data['Image'],
+                        ingr: data['Ingr'],
+                        type: data['Type'],
+                        cal: data['Calories'],
+                        price: data['Price'],
+                        itemId: doc.id,
+                      );
+                    },
                   ),
-                  itemCount: filteredMenuItems.length,
-                  itemBuilder: (context, index) {
-                    final doc = filteredMenuItems[index];
-                    final data = doc.data() as Map<String, dynamic>;
-
-                    return MenuItemWidget(
-                      name: data['Name'],
-                      des: data['Description'],
-                      img: data['Image'],
-                      ingr: data['Ingr'],
-                      type: data['Type'],
-                      cal: data['Calories'],
-                      price: data['Price'],
-                      itemId: doc.id,
-                    );
-                  },
                 );
               },
             ),

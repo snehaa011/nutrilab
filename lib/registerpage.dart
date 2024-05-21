@@ -39,6 +39,14 @@ class _GoToRegisterPageState extends State<GoToRegisterPage> {
     });
   }
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+
+    // Base font sizes
+    final double baseFontSize = screenWidth * 0.05;
+    final double smallFontSize = baseFontSize * 0.65;
+    final double mediumFontSize = baseFontSize * 0.8;
+    final double largeFontSize = baseFontSize*1.4;
+    final double extraLargeFontSize = baseFontSize * 2.5;
     return Scaffold(
       // Color.fromARGB(255, 250, 240, 222),
       backgroundColor: Color.fromARGB(255, 225, 226, 209),
@@ -53,7 +61,7 @@ class _GoToRegisterPageState extends State<GoToRegisterPage> {
                 style: TextStyle(
                   fontFamily: 'Gayathri',
                   fontWeight: FontWeight.w700,
-                  fontSize: 20,
+                  fontSize: mediumFontSize,
                 ),
               ),
               Spacer(flex: 4),
@@ -64,7 +72,7 @@ class _GoToRegisterPageState extends State<GoToRegisterPage> {
                     color: const Color.fromARGB(255, 0, 0, 0),
                     fontFamily: 'Gayathri',
                     fontWeight: FontWeight.w700,
-                    fontSize: 18),
+                    fontSize: mediumFontSize),
                 decoration: myDecorationField.copyWith(hintText: 'Name'),
                 keyboardType: TextInputType.emailAddress,
               ),
@@ -76,7 +84,7 @@ class _GoToRegisterPageState extends State<GoToRegisterPage> {
                     color: const Color.fromARGB(255, 0, 0, 0),
                     fontFamily: 'Gayathri',
                     fontWeight: FontWeight.w700,
-                    fontSize: 18),
+                    fontSize: mediumFontSize),
                 decoration: myDecorationField.copyWith(hintText: 'Email'),
                 keyboardType: TextInputType.emailAddress,
               ),
@@ -89,7 +97,7 @@ class _GoToRegisterPageState extends State<GoToRegisterPage> {
                     color: const Color.fromARGB(255, 0, 0, 0),
                     fontFamily: 'Gayathri',
                     fontWeight: FontWeight.w700,
-                    fontSize: 18),
+                    fontSize: mediumFontSize),
                 decoration: myDecorationField.copyWith(hintText: 'Password'),
               ),
               Spacer(),
@@ -100,7 +108,7 @@ class _GoToRegisterPageState extends State<GoToRegisterPage> {
                     color: const Color.fromARGB(255, 0, 0, 0),
                     fontFamily: 'Gayathri',
                     fontWeight: FontWeight.w700,
-                    fontSize: 18),
+                    fontSize: mediumFontSize),
                 decoration: myDecorationField.copyWith(hintText: 'Mobile'),
                 keyboardType: TextInputType.number,
               ),
@@ -112,7 +120,7 @@ class _GoToRegisterPageState extends State<GoToRegisterPage> {
                   child: Text(
                     "SIGN UP",
                     style: TextStyle(
-                      fontSize: 35,
+                      fontSize: largeFontSize,
                       fontWeight: FontWeight.w500,
                       fontFamily: 'Genos',
                       color: Color.fromARGB(255, 225, 226, 209),
@@ -137,7 +145,7 @@ class _GoToRegisterPageState extends State<GoToRegisterPage> {
                         color: Color.fromARGB(255, 0, 0, 0),
                         fontFamily: 'Gayathri',
                         fontWeight: FontWeight.w700,
-                        fontSize: 17),
+                        fontSize: smallFontSize),
                   ),
                   TextButton(
                     style: TextButton.styleFrom(
@@ -152,7 +160,7 @@ class _GoToRegisterPageState extends State<GoToRegisterPage> {
                           color: Color.fromARGB(255, 24, 79, 87),
                           fontFamily: 'Gayathri',
                           fontWeight: FontWeight.w700,
-                          fontSize: 18),
+                          fontSize: mediumFontSize),
                     ),
                   ),
                 ],
