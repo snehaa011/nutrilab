@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:nutrilab/buildcart.dart';
-import 'package:nutrilab/cartpage.dart';
 import './snackbar.dart';
 import './menudetails.dart';
 

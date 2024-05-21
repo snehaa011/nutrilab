@@ -46,7 +46,7 @@ class _GoToRegisterPageState extends State<GoToRegisterPage> {
     final double smallFontSize = baseFontSize * 0.65;
     final double mediumFontSize = baseFontSize * 0.8;
     final double largeFontSize = baseFontSize*1.4;
-    final double extraLargeFontSize = baseFontSize * 2.5;
+  
     return Scaffold(
       // Color.fromARGB(255, 250, 240, 222),
       backgroundColor: Color.fromARGB(255, 225, 226, 209),

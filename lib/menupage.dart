@@ -18,10 +18,8 @@ class _GoToMenuPageState extends State<GoToMenuPage> {
   @override
   Widget build(BuildContext context) {
     final double screenWidth = MediaQuery.of(context).size.width;
-final double screenHeight = MediaQuery.of(context).size.height;
-
-final double mainAxisSpacing = screenWidth * 0.02; // Adjust as needed
-final double crossAxisSpacing = screenWidth * 0.02; // Adjust as nee
+    final double mainAxisSpacing = screenWidth * 0.02; // Adjust as needed
+    final double crossAxisSpacing = screenWidth * 0.02; // Adjust as nee
     return Padding(
       padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
       child: Column(
@@ -38,7 +36,7 @@ final double crossAxisSpacing = screenWidth * 0.02; // Adjust as nee
             ),
           ),
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 25, vertical:10),
+            padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 10),
             child: TextField(
               controller: _searchController,
               cursorColor: Color.fromARGB(255, 24, 79, 87),
@@ -94,7 +92,7 @@ final double crossAxisSpacing = screenWidth * 0.02; // Adjust as nee
             ),
           ),
           Padding(
-            padding: const EdgeInsets.only(top: 5, left:25),
+            padding: const EdgeInsets.only(top: 5, left: 25),
             child: Text(
               'Categories',
               style: TextStyle(
@@ -173,12 +171,13 @@ final double crossAxisSpacing = screenWidth * 0.02; // Adjust as nee
                 }
 
                 return Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 25, vertical:5),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 25, vertical: 5),
                   child: GridView.builder(
                     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 2,
-                      childAspectRatio: 0.75, 
-                          // 0.75, // Adjusts the height and width ratio
+                      childAspectRatio: 0.75,
+                      // 0.75, // Adjusts the height and width ratio
                       mainAxisSpacing: mainAxisSpacing,
                       crossAxisSpacing: crossAxisSpacing,
                     ),
@@ -186,7 +185,7 @@ final double crossAxisSpacing = screenWidth * 0.02; // Adjust as nee
                     itemBuilder: (context, index) {
                       final doc = filteredMenuItems[index];
                       final data = doc.data() as Map<String, dynamic>;
-                  
+
                       return MenuItemWidget(
                         name: data['Name'],
                         des: data['Description'],
