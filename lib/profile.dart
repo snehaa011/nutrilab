@@ -30,10 +30,6 @@ class GoToProfileState extends State<GoToProfile> {
     _getUser();
   }
 
-   void rebuild() {
-    _getUser();
-  }
-
   Future<void> _getUser() async {
     User? currentUser = _auth.currentUser;
     if (currentUser == null) {
@@ -54,7 +50,7 @@ class GoToProfileState extends State<GoToProfile> {
           if (address.isNotEmpty) {
             state = address['state'] ?? '';
             city = address['city'] ?? '';
-            if (address.containsKey('zip')) {
+            if (address.containsKey('zip') && address['zip']!=null) {
               zip = address['zip'].toString();
             }
           }
@@ -120,8 +116,7 @@ class GoToProfileState extends State<GoToProfile> {
                 ElevatedButton(
                   onPressed: () async {
                     // Navigate to edit profile page
-                    final Map<String, dynamic>? newProfileData =
-                        await Navigator.push(
+                     Navigator.push(
                       context,
                       MaterialPageRoute(
                         builder: (context) => EditProfilePage(
@@ -134,19 +129,6 @@ class GoToProfileState extends State<GoToProfile> {
                         ),
                       ),
                     );
-
-                    // If new profile data is not null, update Firestore document
-                    if (newProfileData != null) {
-                      try {
-                        await FirebaseFirestore.instance
-                            .collection('users')
-                            .doc(email)
-                            .update(newProfileData);
-                        _getUser(); // Update displayed data
-                      } catch (e) {
-                        print("Error updating profile data: $e");
-                      }
-                    }
                     _getUser(); 
                   },
                   child: Row(
@@ -342,7 +324,7 @@ class GoToProfileState extends State<GoToProfile> {
                 child: Text(
                   "SIGNOUT",
                   style: TextStyle(
-                    fontSize: MediaQuery.of(context).size.width * 0.08,
+                    fontSize: MediaQuery.of(context).size.width * 0.065,
                     fontWeight: FontWeight.w500,
                     fontFamily: 'Genos',
                     color: Color.fromARGB(255, 225, 226, 209),

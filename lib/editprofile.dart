@@ -256,7 +256,6 @@ class _EditProfilePageState extends State<EditProfilePage> {
                             .doc(widget
                                 .email) // Assuming widget.email is used as the document ID
                             .update(updatedData);
-                        context.findAncestorStateOfType<GoToProfileState>()?.rebuild();
                         Navigator.pop(context);
                       } catch (e) {
                         print("Failed to update user: $e");
