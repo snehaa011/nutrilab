@@ -16,7 +16,8 @@ class CartItemWidget extends StatefulWidget {
   final int price;
   final String itemId;
 
-  CartItemWidget({
+  const CartItemWidget({
+    super.key,
     required this.name,
     required this.des,
     required this.img,
@@ -234,6 +235,7 @@ class _CartItemWidgetState extends State<CartItemWidget> {
     }
   }
 
+  @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
@@ -308,7 +310,7 @@ class _CartItemWidgetState extends State<CartItemWidget> {
                             ),
                           ),
                           Text(
-                            "Rs. " + widget.price.toString(),
+                            "Rs. ${widget.price}",
                             style: TextStyle(
                               fontFamily: 'Lalezar',
                               color: Color.fromARGB(255, 24, 79, 87),
@@ -414,10 +416,6 @@ class _CartItemWidgetState extends State<CartItemWidget> {
                                   width: buttonWidth,
                                   child: ElevatedButton(
                                     onPressed: _addToCart,
-                                    child: Icon(
-                                      Icons.add,
-                                      color: Color.fromARGB(255, 24, 79, 87),
-                                    ),
                                     style: ElevatedButton.styleFrom(
                                       side: BorderSide(
                                         color: Color.fromARGB(255, 24, 79, 87),
@@ -430,6 +428,10 @@ class _CartItemWidgetState extends State<CartItemWidget> {
                                         ),
                                       ),
                                       padding: EdgeInsets.zero,
+                                    ),
+                                    child: Icon(
+                                      Icons.add,
+                                      color: Color.fromARGB(255, 24, 79, 87),
                                     ),
                                   ),
                                 ),

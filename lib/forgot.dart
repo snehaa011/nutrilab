@@ -58,6 +58,13 @@ class _ForgotPageState extends State<ForgotPage> {
                 width: MediaQuery.of(context).size.width - 40,
                 child: ElevatedButton(
                   onPressed: _resetPassword,
+                  style: ElevatedButton.styleFrom(
+                    padding: EdgeInsets.fromLTRB(100, 5, 100, 7),
+                    backgroundColor: Color.fromARGB(255, 24, 79, 87),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                  ),
                   child: Text(
                     "RESET PASSWORD",
                     style: TextStyle(
@@ -65,13 +72,6 @@ class _ForgotPageState extends State<ForgotPage> {
                       fontWeight: FontWeight.w500,
                       fontFamily: 'Genos',
                       color: Color.fromARGB(255, 225, 226, 209),
-                    ),
-                  ),
-                  style: ElevatedButton.styleFrom(
-                    padding: EdgeInsets.fromLTRB(100, 5, 100, 7),
-                    backgroundColor: Color.fromARGB(255, 24, 79, 87),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20),
                     ),
                   ),
                 ),

@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_literals_to_create_immutables
+
 import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -221,7 +223,7 @@ class BuildCartState extends State<BuildCart> {
                       ),
                     ),
                     Text(
-                      'RS. ' + (totalPrice + 40.00).toString() + '.00',
+                      'RS. ${totalPrice+40}.00',
                       style: TextStyle(
                         fontFamily: 'Lalezar',
                         color: Color.fromARGB(255, 70, 112, 72),
@@ -247,6 +249,13 @@ class BuildCartState extends State<BuildCart> {
                     );
                     rebuild();
                   },
+                  style: ElevatedButton.styleFrom(
+                    padding: EdgeInsets.fromLTRB(0, 5, 0, 9),
+                    backgroundColor: Color.fromARGB(255, 24, 79, 87),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                  ),
                   child: Text(
                     "CHECKOUT",
                     style: TextStyle(
@@ -254,13 +263,6 @@ class BuildCartState extends State<BuildCart> {
                       fontWeight: FontWeight.w500,
                       fontFamily: 'Genos',
                       color: Color.fromARGB(255, 225, 226, 209),
-                    ),
-                  ),
-                  style: ElevatedButton.styleFrom(
-                    padding: EdgeInsets.fromLTRB(0, 5, 0, 9),
-                    backgroundColor: Color.fromARGB(255, 24, 79, 87),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20),
                     ),
                   ),
                 ),

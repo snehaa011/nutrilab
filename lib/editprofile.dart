@@ -3,7 +3,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:nutrilab/deco.dart';
-import 'package:nutrilab/profile.dart';
 
 class EditProfilePage extends StatefulWidget {
   final String name;
@@ -14,6 +13,7 @@ class EditProfilePage extends StatefulWidget {
   final String zip;
 
   const EditProfilePage({
+    super.key,
     required this.name,
     required this.mobile,
     required this.email,
@@ -39,14 +39,14 @@ class _EditProfilePageState extends State<EditProfilePage> {
     _zip = TextEditingController(text: widget.zip);
   }
 
-  Widget createBox(TextEditingController _text, String label,
+  Widget createBox(TextEditingController text, String label,
       double screenWidth, double screenHeight) {
     final double baseFontSize = screenWidth * 0.05;
     final double mediumFontSize = baseFontSize * 0.7;
 
     return TextFormField(
       cursorColor: Color.fromARGB(255, 37, 37, 37),
-      controller: _text,
+      controller: text,
       style: TextStyle(
         color: Colors.black,
         fontFamily: 'Gayathri',
@@ -255,15 +255,15 @@ class _EditProfilePageState extends State<EditProfilePage> {
                         print("Failed to update user: $e");
                       }
                     },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Color.fromARGB(255, 24, 79, 87),
+                    ),
                     child: Text("Save",
                         style: TextStyle(
                           color: Colors.white,
                           fontSize: 30,
                           fontFamily: 'Genos'
                         )),
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Color.fromARGB(255, 24, 79, 87),
-                    ),
                   ),
                 ),
               ],

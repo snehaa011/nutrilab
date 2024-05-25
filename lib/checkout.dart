@@ -424,10 +424,10 @@ class CardDetailsBox extends StatelessWidget {
           SizedBox(height: 10),
           ElevatedButton(
             onPressed: onClose,
-            child: Text("Enter", style: TextStyle(color: Colors.white)),
             style: ElevatedButton.styleFrom(
               backgroundColor: Color.fromARGB(255, 24, 79, 87),
             ),
+            child: Text("Enter", style: TextStyle(color: Colors.white)),
           ),
         ],
       ),

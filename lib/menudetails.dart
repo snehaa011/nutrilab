@@ -14,7 +14,8 @@ class DetailsPage extends StatefulWidget {
   final int price;
   final String itemId;
 
-  DetailsPage({
+  const DetailsPage({
+    super.key,
     required this.name,
     required this.des,
     required this.img,
@@ -285,7 +286,7 @@ class _DetailsPageState extends State<DetailsPage> {
                               ),
                             ),
                             Text(
-                              "Rs. " + widget.price.toString(),
+                              "Rs. ${widget.price}",
                               style: TextStyle(
                                 fontFamily: 'Lalezar',
                                 color: Color.fromARGB(255, 24, 79, 87),
@@ -305,7 +306,7 @@ class _DetailsPageState extends State<DetailsPage> {
                         Align(
                           alignment: Alignment.centerLeft,
                           child: Text(
-                            "Calories: " + widget.cal.toString() + "cal",
+                            "Calories: ${widget.cal}cal",
                             style: TextStyle(
                                 fontSize: 17, fontFamily: 'Gayathri'),
                           ),
@@ -313,7 +314,7 @@ class _DetailsPageState extends State<DetailsPage> {
                         Align(
                           alignment: Alignment.centerLeft,
                           child: Text(
-                            "Ingredients: " + widget.ingr,
+                            "Ingredients: ${widget.ingr}",
                             style: TextStyle(
                                 fontSize: 17, fontFamily: 'Gayathri'),
                           ),
@@ -346,10 +347,6 @@ class _DetailsPageState extends State<DetailsPage> {
                                 child: ElevatedButton(
                                   onPressed:
                                       (quantity > 0) ? _removeFromCart : null,
-                                  child: Icon(
-                                    Icons.remove,
-                                    color: Color.fromARGB(255, 24, 79, 87),
-                                  ),
                                   style: ElevatedButton.styleFrom(
                                     side: BorderSide(
                                       color: Color.fromARGB(255, 24, 79, 87),
@@ -362,6 +359,10 @@ class _DetailsPageState extends State<DetailsPage> {
                                       ),
                                     ),
                                     padding: EdgeInsets.zero,
+                                  ),
+                                  child: Icon(
+                                    Icons.remove,
+                                    color: Color.fromARGB(255, 24, 79, 87),
                                   ),
                                 ),
                               ),
@@ -400,10 +401,6 @@ class _DetailsPageState extends State<DetailsPage> {
                                 width: buttonWidth,
                                 child: ElevatedButton(
                                   onPressed: _addToCart,
-                                  child: Icon(
-                                    Icons.add,
-                                    color: Color.fromARGB(255, 24, 79, 87),
-                                  ),
                                   style: ElevatedButton.styleFrom(
                                     side: BorderSide(
                                       color: Color.fromARGB(255, 24, 79, 87),
@@ -416,6 +413,10 @@ class _DetailsPageState extends State<DetailsPage> {
                                       ),
                                     ),
                                     padding: EdgeInsets.zero,
+                                  ),
+                                  child: Icon(
+                                    Icons.add,
+                                    color: Color.fromARGB(255, 24, 79, 87),
                                   ),
                                 ),
                               ),

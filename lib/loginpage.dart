@@ -137,6 +137,13 @@ class _GoToLoginPageState extends State<GoToLoginPage> {
                 width: screenWidth - 40,
                 child: ElevatedButton(
                   onPressed: _login,
+                  style: ElevatedButton.styleFrom(
+                    padding: EdgeInsets.fromLTRB(100, 5, 100, 15),
+                    backgroundColor: Color.fromARGB(255, 24, 79, 87),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                  ),
                   child: Text(
                     "SIGN IN",
                     style: TextStyle(
@@ -144,13 +151,6 @@ class _GoToLoginPageState extends State<GoToLoginPage> {
                       fontWeight: FontWeight.w500,
                       fontFamily: 'Genos',
                       color: Color.fromARGB(255, 225, 226, 209),
-                    ),
-                  ),
-                  style: ElevatedButton.styleFrom(
-                    padding: EdgeInsets.fromLTRB(100, 5, 100, 15),
-                    backgroundColor: Color.fromARGB(255, 24, 79, 87),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20),
                     ),
                   ),
                 ),
