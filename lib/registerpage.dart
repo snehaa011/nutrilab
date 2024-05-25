@@ -38,6 +38,8 @@ class _GoToRegisterPageState extends State<GoToRegisterPage> {
       'address':{},
     });
   }
+
+  @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
 
@@ -117,6 +119,13 @@ class _GoToRegisterPageState extends State<GoToRegisterPage> {
                 width: MediaQuery.of(context).size.width - 40,
                 child: ElevatedButton(
                   onPressed: _signup,
+                  style: ElevatedButton.styleFrom(
+                    padding: EdgeInsets.fromLTRB(100, 5, 100, 15),
+                    backgroundColor: Color.fromARGB(255, 24, 79, 87),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                  ),
                   child: Text(
                     "SIGN UP",
                     style: TextStyle(
@@ -124,13 +133,6 @@ class _GoToRegisterPageState extends State<GoToRegisterPage> {
                       fontWeight: FontWeight.w500,
                       fontFamily: 'Genos',
                       color: Color.fromARGB(255, 225, 226, 209),
-                    ),
-                  ),
-                  style: ElevatedButton.styleFrom(
-                    padding: EdgeInsets.fromLTRB(100, 5, 100, 15),
-                    backgroundColor: Color.fromARGB(255, 24, 79, 87),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20),
                     ),
                   ),
                 ),

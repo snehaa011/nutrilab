@@ -131,6 +131,9 @@ class GoToProfileState extends State<GoToProfile> {
                     );
                     _getUser(); 
                   },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Color.fromARGB(255, 24, 79, 87),
+                  ),
                   child: Row(
                     children: [
                       Icon(
@@ -145,9 +148,6 @@ class GoToProfileState extends State<GoToProfile> {
                             color: Colors.white,
                           )),
                     ],
-                  ),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Color.fromARGB(255, 24, 79, 87),
                   ),
                 ),
               ],
@@ -321,6 +321,13 @@ class GoToProfileState extends State<GoToProfile> {
                 onPressed: () async {
                   await _user.signout(context);
                 },
+                style: ElevatedButton.styleFrom(
+                  padding: EdgeInsets.fromLTRB(0, 5, 0, 9),
+                  backgroundColor: Color.fromARGB(255, 24, 79, 87),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                ),
                 child: Text(
                   "SIGNOUT",
                   style: TextStyle(
@@ -328,13 +335,6 @@ class GoToProfileState extends State<GoToProfile> {
                     fontWeight: FontWeight.w500,
                     fontFamily: 'Genos',
                     color: Color.fromARGB(255, 225, 226, 209),
-                  ),
-                ),
-                style: ElevatedButton.styleFrom(
-                  padding: EdgeInsets.fromLTRB(0, 5, 0, 9),
-                  backgroundColor: Color.fromARGB(255, 24, 79, 87),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20),
                   ),
                 ),
               ),

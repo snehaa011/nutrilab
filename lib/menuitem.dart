@@ -113,6 +113,7 @@ class _MenuItemWidgetState extends State<MenuItemWidget> {
     }
   }
 
+  @override
   Widget build(BuildContext context) {
     // Get screen width and height using MediaQuery
     double screenWidth = MediaQuery.of(context).size.width;
@@ -207,7 +208,7 @@ class _MenuItemWidgetState extends State<MenuItemWidget> {
                                 ),
                               ),
                               Text(
-                                "Rs. " + widget.price.toString(),
+                                "Rs. ${widget.price}",
                                 style: TextStyle(
                                   fontFamily: 'Lalezar',
                                   color: Color.fromARGB(255, 24, 79, 87),
@@ -219,7 +220,6 @@ class _MenuItemWidgetState extends State<MenuItemWidget> {
                           ),
                           SizedBox(height: screenHeight * 0.01),
                           Container(
-                            // height: itemHeight*0.15,
                             child: SingleChildScrollView(
                               scrollDirection: Axis.vertical,
                               child: Align(
