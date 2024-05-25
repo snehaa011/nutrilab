@@ -56,7 +56,7 @@ class _CartItemWidgetState extends State<CartItemWidget> {
     try {
       DocumentSnapshot userDoc = await userRef.get();
       Map<String, dynamic>? userData =
-          userDoc.data() as Map<String, dynamic>?; // Get user data
+          userDoc.data() as Map<String, dynamic>?; 
       List liked = userData?['liked'] ?? [];
 
       if (liked.contains(widget.itemId) && mounted) {
@@ -93,8 +93,8 @@ class _CartItemWidgetState extends State<CartItemWidget> {
 
     try {
       DocumentSnapshot userDoc =
-          await userRef.get(); // Await the userDoc retrieval
-      Map<String, dynamic> cart = userDoc['cart'] ?? {}; // Get cart data
+          await userRef.get(); 
+      Map<String, dynamic> cart = userDoc['cart'] ?? {}; 
       return cart[widget.itemId] ?? 0;
     } catch (e) {
       log("Error fetching user document: $e");
@@ -144,10 +144,10 @@ class _CartItemWidgetState extends State<CartItemWidget> {
 
     try {
       DocumentSnapshot userDoc =
-          await userRef.get(); // Await the userDoc retrieval
+          await userRef.get(); 
       Map<String, dynamic>? userData =
-          userDoc.data() as Map<String, dynamic>?; // Get user data
-      Map<String, dynamic> cart = userData?['cart'] ?? {}; // Get cart data
+          userDoc.data() as Map<String, dynamic>?; 
+      Map<String, dynamic> cart = userData?['cart'] ?? {}; 
 
       cart[widget.itemId] = 0;
       if (mounted){
@@ -163,7 +163,6 @@ class _CartItemWidgetState extends State<CartItemWidget> {
     }
     } catch (e) {
       log("Error fetching user document: $e");
-      // Handle error
     }
   }
 
@@ -180,10 +179,10 @@ class _CartItemWidgetState extends State<CartItemWidget> {
 
     try {
       DocumentSnapshot userDoc =
-          await userRef.get(); // Await the userDoc retrieval
+          await userRef.get(); 
       Map<String, dynamic>? userData =
-          userDoc.data() as Map<String, dynamic>?; // Get user data
-      Map<String, dynamic> cart = userData?['cart'] ?? {}; // Get cart data
+          userDoc.data() as Map<String, dynamic>?; 
+      Map<String, dynamic> cart = userData?['cart'] ?? {}; 
 
       cart[widget.itemId] = (cart[widget.itemId] ?? 1) - 1;
       if (mounted){
@@ -192,7 +191,7 @@ class _CartItemWidgetState extends State<CartItemWidget> {
       });
       }
       
-      await userRef.update({'cart': cart}); // Update user document
+      await userRef.update({'cart': cart}); 
       showNotif(context, '1 Item removed from cart!');
       
       context.findAncestorStateOfType<BuildCartState>()?.rebuild();
@@ -216,23 +215,22 @@ class _CartItemWidgetState extends State<CartItemWidget> {
 
     try {
       DocumentSnapshot userDoc =
-          await userRef.get(); // Await the userDoc retrieval
+          await userRef.get(); 
       Map<String, dynamic>? userData =
-          userDoc.data() as Map<String, dynamic>?; // Get user data
-      Map<String, dynamic> cart = userData?['cart'] ?? {}; // Get cart data
-      cart[widget.itemId] = (cart[widget.itemId] ?? 0) + 1; // Update cart
+          userDoc.data() as Map<String, dynamic>?; 
+      Map<String, dynamic> cart = userData?['cart'] ?? {}; 
+      cart[widget.itemId] = (cart[widget.itemId] ?? 0) + 1; 
       if (mounted){
         setState(() {
         quantity = cart[widget.itemId];
       });
       }
       
-      await userRef.update({'cart': cart}); // Update user document
+      await userRef.update({'cart': cart}); 
       showNotif(context, '1 Item added to cart!');
       context.findAncestorStateOfType<BuildCartState>()?.rebuild();
     } catch (e) {
       log("Error fetching user document: $e");
-      // Handle error
     }
   }
 

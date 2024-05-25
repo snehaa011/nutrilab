@@ -33,10 +33,6 @@ class BuildSavedState extends State<BuildSaved> {
   Future<void> _initializeLikedItems() async {
     await _checkLiked();
     await fetchDocuments(liked);
-    if (mounted) {
-      setState(
-          () {}); // Triggers a rebuild to update the UI with fetched documents
-    }
   }
 
   Future<void> _checkLiked() async {
@@ -52,8 +48,6 @@ class BuildSavedState extends State<BuildSaved> {
 
     try {
       DocumentSnapshot userDoc = await userRef.get();
-      // Map<String, dynamic>? userData =
-      //     userDoc.data() as Map<String, dynamic>?; // Get user data
       if (mounted){
         setState(() {
         liked = userDoc['liked'] ?? [];

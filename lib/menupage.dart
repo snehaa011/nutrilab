@@ -18,8 +18,8 @@ class _GoToMenuPageState extends State<GoToMenuPage> {
   @override
   Widget build(BuildContext context) {
     final double screenWidth = MediaQuery.of(context).size.width;
-    final double mainAxisSpacing = screenWidth * 0.02; // Adjust as needed
-    final double crossAxisSpacing = screenWidth * 0.02; // Adjust as nee
+    final double mainAxisSpacing = screenWidth * 0.02; 
+    final double crossAxisSpacing = screenWidth * 0.02; 
     return Padding(
       padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
       child: Column(
@@ -223,14 +223,12 @@ class _GoToMenuPageState extends State<GoToMenuPage> {
           style: ElevatedButton.styleFrom(
             backgroundColor: _selectedCategory == category
                 ? Color.fromARGB(255, 125, 172,
-                    106) // Green background for selected category
-                : Colors.white, // Default background for unselected categories
+                    106) 
+                : Colors.white, 
             foregroundColor: _selectedCategory == category
-                ? Colors.white // White text for selected category
+                ? Colors.white 
                 : Color.fromARGB(255, 24, 79,
-                    87), // Default text color for unselected categories
-            // side: BorderSide(
-            //     color: Color.fromARGB(255, 24, 79, 87)), // Border color
+                    87), 
           ),
           child: Text(
             category,

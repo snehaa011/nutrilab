@@ -116,7 +116,7 @@ class GoToProfileState extends State<GoToProfile> {
                 ElevatedButton(
                   onPressed: () async {
                     // Navigate to edit profile page
-                     Navigator.push(
+                     await Navigator.push(
                       context,
                       MaterialPageRoute(
                         builder: (context) => EditProfilePage(

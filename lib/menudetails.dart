@@ -32,7 +32,6 @@ class DetailsPage extends StatefulWidget {
 class _DetailsPageState extends State<DetailsPage> {
   bool isLiked = false;
   int quantity = 0;
-  // bool hasItem = false; //means it has atleast one item in cart
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
   @override
@@ -64,8 +63,8 @@ class _DetailsPageState extends State<DetailsPage> {
 
     try {
       DocumentSnapshot userDoc =
-          await userRef.get(); // Await the userDoc retrieval
-      Map<String, dynamic> cart = userDoc['cart'] ?? {}; // Get cart data
+          await userRef.get(); 
+      Map<String, dynamic> cart = userDoc['cart'] ?? {}; 
       return cart[widget.itemId] ?? 0;
     } catch (e) {
       log("Error fetching user document: $e");
@@ -148,10 +147,10 @@ class _DetailsPageState extends State<DetailsPage> {
 
     try {
       DocumentSnapshot userDoc =
-          await userRef.get(); // Await the userDoc retrieval
+          await userRef.get(); 
       Map<String, dynamic>? userData =
-          userDoc.data() as Map<String, dynamic>?; // Get user data
-      Map<String, dynamic> cart = userData?['cart'] ?? {}; // Get cart data
+          userDoc.data() as Map<String, dynamic>?; 
+      Map<String, dynamic> cart = userData?['cart'] ?? {}; 
 
       cart[widget.itemId] = (cart[widget.itemId] ?? 1) - 1;
       setState(() {
@@ -222,7 +221,7 @@ class _DetailsPageState extends State<DetailsPage> {
                             ),
                             Container(
                               color: Colors.black.withOpacity(
-                                  0.5), // Add black background with 50% opacity
+                                  0.5), 
                             ),
                           ],
                         ),
@@ -423,26 +422,6 @@ class _DetailsPageState extends State<DetailsPage> {
                             ],
                           ),
                         ),
-                  
-                        //     ElevatedButton(
-                        //   onPressed: _addToCart,
-                        //   child: Text(
-                        //     "Add to Cart",
-                        //     style: TextStyle(
-                        //       fontSize: 20,
-                        //       fontWeight: FontWeight.w500,
-                        //       fontFamily: 'Gayathri',
-                        //       color: Color.fromARGB(255, 225, 226, 209),
-                        //     ),
-                        //   ),
-                        //   style: ElevatedButton.styleFrom(
-                        //     padding: EdgeInsets.fromLTRB(40, 20, 40, 10),
-                        //     backgroundColor: Color.fromARGB(255, 24, 79, 87),
-                        //     shape: RoundedRectangleBorder(
-                        //       borderRadius: BorderRadius.circular(20),
-                        //     ),
-                        //   ),
-                        // ),
                       ],
                     ),
                   ),
@@ -479,7 +458,7 @@ class _DetailsPageState extends State<DetailsPage> {
                       ),
                       onPressed: () {
                         Navigator.pop(context);
-                      }, //_addToCart,
+                      }, 
                     ),
                   ),
                 ),

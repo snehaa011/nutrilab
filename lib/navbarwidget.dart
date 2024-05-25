@@ -75,16 +75,6 @@ class _BottomNavState extends State<BottomNav> {
               label:'Profile',
             ),
           ],
-        
-          // child: Container(
-          //   decoration: BoxDecoration(
-          //     borderRadius: BorderRadius.only(
-          //       topLeft: Radius.circular(20),
-          //       topRight: Radius.circular(20),
-          //     ),
-          //     color: Color.fromARGB(255, 24, 79, 87),
-          //   ),
-          // ),
         ),
       ),
     );

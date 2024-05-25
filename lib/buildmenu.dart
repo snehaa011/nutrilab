@@ -38,7 +38,7 @@ class _MenuPageState extends State<MenuPage> {
         return GridView.builder(
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 2,
-              childAspectRatio: 0.75, // Adjusts the height and width ratio
+              childAspectRatio: 0.75, 
             mainAxisSpacing: 10.0,
             crossAxisSpacing: 10.0,
             ),

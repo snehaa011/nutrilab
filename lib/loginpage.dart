@@ -47,7 +47,6 @@ class _GoToLoginPageState extends State<GoToLoginPage> {
               ),
               Stack(
                 children: <Widget>[
-                  // Stroked text as border.
                   Text(
                     'NUTRILAB',
                     style: TextStyle(
@@ -60,7 +59,6 @@ class _GoToLoginPageState extends State<GoToLoginPage> {
                         ..color = Color.fromARGB(255, 27, 78, 23),
                     ),
                   ),
-                  // Solid text as fill.
                   Text(
                     'NUTRILAB',
                     style: TextStyle(

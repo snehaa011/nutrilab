@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:nutrilab/cartitem.dart';
+import 'package:nutrilab/checkout.dart';
 
 class BuildCart extends StatefulWidget {
   const BuildCart({super.key});
@@ -16,7 +17,7 @@ class BuildCartState extends State<BuildCart> {
   Map<String, dynamic> cart = {};
   Map<DocumentSnapshot, int> documents = {};
   int totalItems = 0;
-  int totalPrice=0;
+  int totalPrice = 0;
   @override
   void initState() {
     super.initState();
@@ -26,10 +27,10 @@ class BuildCartState extends State<BuildCart> {
   Future<void> _initializeCartItems() async {
     await _checkCart();
     await fetchDocuments(cart);
-    if (mounted) {
-      setState(
-          () {}); // Triggers a rebuild to update the UI with fetched documents
-    }
+    // if (mounted) {
+    //   setState(
+    //       () {}); 
+    // }
   }
 
   Future<void> _checkCart() async {
@@ -46,7 +47,7 @@ class BuildCartState extends State<BuildCart> {
     try {
       DocumentSnapshot userDoc = await userRef.get();
       Map<String, dynamic>? userData =
-          userDoc.data() as Map<String, dynamic>?; // Get user data
+          userDoc.data() as Map<String, dynamic>?; 
       setState(() {
         cart = userData?['cart'] ?? {};
       });
@@ -59,7 +60,6 @@ class BuildCartState extends State<BuildCart> {
     for (var entry in docIds.entries) {
       String docId = entry.key;
       int quantity = entry.value;
-      // log("$docId $quantity");
       if (quantity > 0) {
         DocumentSnapshot docSnapshot = await FirebaseFirestore.instance
             .collection('menuitems')
@@ -70,8 +70,8 @@ class BuildCartState extends State<BuildCart> {
           var data = docSnapshot.data() as Map<String, dynamic>;
           int price = data['Price'] as int;
           setState(() {
-            totalPrice+=quantity*price;
-            totalItems+=quantity;
+            totalPrice += quantity * price;
+            totalItems += quantity;
             documents[docSnapshot] = quantity;
           });
         }
@@ -79,16 +79,16 @@ class BuildCartState extends State<BuildCart> {
     }
   }
 
-  void rebuild() {
-    if (mounted){
+  Future<void> rebuild() async {
+    if (mounted) {
       setState(() {
-      documents={};
-      totalItems=0;
-      totalPrice=0;
-    });
+        documents = {};
+        totalItems = 0;
+        totalPrice = 0;
+      });
     }
-    
-    _initializeCartItems();
+
+    await _initializeCartItems();
   }
 
   @override
@@ -106,7 +106,9 @@ class BuildCartState extends State<BuildCart> {
             ),
           );
         }
-        if (!snapshot.hasData || snapshot.data!.docs.isEmpty)  {
+        if (!snapshot.hasData ||
+            snapshot.data!.docs.isEmpty ||
+            totalItems == 0) {
           return Center(
             child: Text(
               'No items in cart.',
@@ -146,74 +148,109 @@ class BuildCartState extends State<BuildCart> {
                 },
               ),
               SizedBox(height: 20),
-              Text('Order Summary',style: TextStyle(
-                                fontFamily: 'Lalezar',
-                                color: Color.fromARGB(255, 24, 79, 87),
-                                fontSize: 30,
-                              ),),
-              SizedBox(height: 10),
-              Container(
-                width: MediaQuery.of(context).size.width*0.7,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                  Text('ITEMS         $totalItems', style: TextStyle(
-                                fontFamily: 'Lalezar',
-                                color: Color.fromARGB(255, 53, 53, 53),
-                                fontSize: 20,
-                              ),),
-              Text('RS.$totalPrice.00', style: TextStyle(
-                                fontFamily: 'Lalezar',
-                                color: Color.fromARGB(255, 70, 112, 72),
-                                fontSize: 20,
-                              ),),
-                ],),
+              Text(
+                'Order Summary',
+                style: TextStyle(
+                  fontFamily: 'Lalezar',
+                  color: Color.fromARGB(255, 24, 79, 87),
+                  fontSize: 30,
+                ),
               ),
               SizedBox(height: 10),
               Container(
-                width: MediaQuery.of(context).size.width*0.7,
+                width: MediaQuery.of(context).size.width * 0.7,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                  Text('SHIPPING COSTS', style: TextStyle(
-                                fontFamily: 'Lalezar',
-                                color: Color.fromARGB(255, 53, 53, 53),
-                                fontSize: 20,
-                              ),),
-              Text('Rs.40.00', style: TextStyle(
-                                fontFamily: 'Lalezar',
-                                color: Color.fromARGB(255, 70, 112, 72),
-                                fontSize: 20,
-                              ),),
-                ],),
+                    Text(
+                      'ITEMS         $totalItems',
+                      style: TextStyle(
+                        fontFamily: 'Lalezar',
+                        color: Color.fromARGB(255, 53, 53, 53),
+                        fontSize: 20,
+                      ),
+                    ),
+                    Text(
+                      'RS.$totalPrice.00',
+                      style: TextStyle(
+                        fontFamily: 'Lalezar',
+                        color: Color.fromARGB(255, 70, 112, 72),
+                        fontSize: 20,
+                      ),
+                    ),
+                  ],
+                ),
               ),
               SizedBox(height: 10),
               Container(
-                width: MediaQuery.of(context).size.width*0.7,
+                width: MediaQuery.of(context).size.width * 0.7,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                  Text('TOTAL AMOUNT', style: TextStyle(
-                                fontFamily: 'Lalezar',
-                                color: Color.fromARGB(255, 53, 53, 53),
-                                fontSize: 20,
-                              ),),
-              Text('RS. '+(totalPrice+40.00).toString()+'.00', style: TextStyle(
-                                fontFamily: 'Lalezar',
-                                color: Color.fromARGB(255, 70, 112, 72),
-                                fontSize: 20,
-                              ),),
-                ],),
+                    Text(
+                      'SHIPPING COSTS',
+                      style: TextStyle(
+                        fontFamily: 'Lalezar',
+                        color: Color.fromARGB(255, 53, 53, 53),
+                        fontSize: 20,
+                      ),
+                    ),
+                    Text(
+                      'Rs.40.00',
+                      style: TextStyle(
+                        fontFamily: 'Lalezar',
+                        color: Color.fromARGB(255, 70, 112, 72),
+                        fontSize: 20,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(height: 10),
+              Container(
+                width: MediaQuery.of(context).size.width * 0.7,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      'TOTAL AMOUNT',
+                      style: TextStyle(
+                        fontFamily: 'Lalezar',
+                        color: Color.fromARGB(255, 53, 53, 53),
+                        fontSize: 20,
+                      ),
+                    ),
+                    Text(
+                      'RS. ' + (totalPrice + 40.00).toString() + '.00',
+                      style: TextStyle(
+                        fontFamily: 'Lalezar',
+                        color: Color.fromARGB(255, 70, 112, 72),
+                        fontSize: 20,
+                      ),
+                    ),
+                  ],
+                ),
               ),
               SizedBox(height: 20),
               SizedBox(
-                width: MediaQuery.of(context).size.width*0.7,
+                width: MediaQuery.of(context).size.width * 0.7,
                 child: ElevatedButton(
-                  onPressed: (){},
+                  onPressed: () async {
+                    await Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => GoToCheckout(
+                          price: totalPrice,
+                          items: totalItems,
+                        ),
+                      ),
+                    );
+                    rebuild();
+                  },
                   child: Text(
                     "CHECKOUT",
                     style: TextStyle(
-                      fontSize: MediaQuery.of(context).size.width*0.09,
+                      fontSize: MediaQuery.of(context).size.width * 0.09,
                       fontWeight: FontWeight.w500,
                       fontFamily: 'Genos',
                       color: Color.fromARGB(255, 225, 226, 209),

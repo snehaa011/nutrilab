@@ -19,11 +19,8 @@ class _ForgotPageState extends State<ForgotPage> {
     try {
       await _auth.sendPasswordResetEmail(email: _emailController.text);
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(content:Text("An email has been sent to ${_emailController.text} to reset password."), ),);
-      // Show a confirmation dialog to inform the user that an email has been sent
     } catch (e) {
-      // Handle errors here
       print("Error resetting password: $e");
-      // You can show error messages to the user if needed
     }
     Navigator.pop(context);
   }

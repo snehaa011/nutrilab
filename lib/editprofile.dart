@@ -120,9 +120,6 @@ class _EditProfilePageState extends State<EditProfilePage> {
                   height: screenHeight * 0.1,
                   child: createBox(_name, "Name", screenWidth, screenHeight),
                 ),
-                // SizedBox(
-                //   height: screenHeight * 0.0001,
-                // ),
                 Padding(
                   padding: const EdgeInsets.only(left: 30),
                   child: Align(
@@ -141,7 +138,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                 ),
               
                 SizedBox(
-                  height: screenHeight * 0.000001,
+                  height: screenHeight * 0.001,
                 ),
                 Padding(
                   padding: const EdgeInsets.only(left: 30),
@@ -210,9 +207,6 @@ class _EditProfilePageState extends State<EditProfilePage> {
                     ),
                   ],
                 ),
-                // SizedBox(
-                //   height:screenHeight * 0.0001,
-                // ),
                 Padding(
                   padding: const EdgeInsets.only(left: 30),
                   child: Align(
@@ -236,7 +230,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                   alignment: Alignment.center,
                   child: ElevatedButton(
                     onPressed: () async {
-                      // Navigate to edit profile page
+                    
                       final updatedData = {
                         'name': _name.text,
                         'mobile': (_mobile.text.isNotEmpty)
@@ -254,7 +248,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                         await FirebaseFirestore.instance
                             .collection('users')
                             .doc(widget
-                                .email) // Assuming widget.email is used as the document ID
+                                .email) 
                             .update(updatedData);
                         Navigator.pop(context);
                       } catch (e) {
