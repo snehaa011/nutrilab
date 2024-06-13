@@ -7,13 +7,20 @@ class InitialState extends LikedItemState{
   List<Object> get props => [];
 }
 
+class IsLikedState extends LikedItemState{
+  final bool isLiked;
+  IsLikedState ({required this.isLiked});
+
+  @override
+  List<Object?> get props => [isLiked];}
+
 class LikedItemLoadingState extends LikedItemState{
   @override
   List<Object> get props => [];
 }
 
 class LikedItemLoadedState extends LikedItemState{
-  final List<String> LikedItemList;
+  final List<dynamic> LikedItemList;
 
   LikedItemLoadedState({
     required this.LikedItemList
@@ -22,6 +29,11 @@ class LikedItemLoadedState extends LikedItemState{
   @override
   List<Object> get props => [LikedItemList];
 
+}
+
+class LikedItemEmptyState extends LikedItemState{
+  @override
+  List<Object> get props => [];
 }
 
 class LikedItemFailureState extends LikedItemState {

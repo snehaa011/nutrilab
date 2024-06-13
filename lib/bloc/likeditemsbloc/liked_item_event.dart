@@ -5,14 +5,19 @@ abstract class LikedItemEvent extends Equatable{
     List<Object> get props => [];
 }
 
-class ItemLikedEvent extends LikedItemEvent{
-    final String itemId;
+class PageInitializedEvent extends LikedItemEvent{
 
-    ItemLikedEvent(this.itemId);
 }
 
-class ItemUnlikedEvent extends LikedItemEvent{
+class CheckIflikedEvent extends LikedItemEvent{
+  final String itemId;
+
+  CheckIflikedEvent(this.itemId);
+}
+
+class LikeButtonToggledEvent extends LikedItemEvent{
     final String itemId;
 
-    ItemUnlikedEvent(this.itemId);
+    LikeButtonToggledEvent(this.itemId);
 }
+
