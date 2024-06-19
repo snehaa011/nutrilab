@@ -28,7 +28,7 @@ Once logged in, users can view the menu page with various food items displayed a
 User can click on the heart icon to save or unsave an item from their saved items.
 
 ### Food details page
-If user clicks on an item, they can view more details like ingredients and calories and add as many as they like into their cart.
+If user clicks on an item, they can view more details like ingredients and calories and add/remove item into their cart.
 
 ### Your cart
 User can view their cart where they can add more items, remove an item or save it for later. They can also see the total amount and proceed to checkout.
