@@ -1,14 +1,13 @@
 # Nutrilab
 
-NUTRILAB is a dummy food delivery app (as of now this app doesn't support real payments) dedicated to holistic lifestyle choices and healthy eating habits. 
-This is a fun project designed and coded by me.
-TechStack used :
-Flutter, Firebase, Firestore, Bloc
+NUTRILAB is a food delivery app dedicated to holistic lifestyle choices and healthy eating habits. 
+This is a fun self-initiated project which aided me in continued learning and hands on knowledge.
+
 
 ## Table of contents
 
 - [Overview](#overview)
-  - [About the project](#about-the-project)
+  - [Features](#features)
   - [Screenshot](#screenshot)
 - [My process](#my-process)
   - [Built with](#built-with)
@@ -20,16 +19,24 @@ Flutter, Firebase, Firestore, Bloc
 
 ## Overview
 
-### About the project
+### Features
 
-Users can register/ login into the app. The app uses firebase authentication. There is also an option to reset password via email.
-Once logged in, users can view the menu page with various food items displayed along with their image, name, price as well as an option to save the item.
-You can search for items or filter them by categories.
-There is a page where you can view all your saved items.
-If you click on an item, you can view more details like ingredients and calories and add as many as you like into your cart.
-You can view your cart where you can add more items, remove an item or save it for later. You can also see the total amount and proceed to checkout.
-The checkout page requires your address and payment method and let's pretend you get the food at your doorstep.
-The profile page lets you view/edit your personal info and logout.
+#### Profile
+
+Users can create a profile using the register option and add details such as name, email, mobile and set a password. Registered users can login using their email and passowrd. There is also an option to reset password via email. Users can edit their personal information, add/change address and logout in the profile page.
+
+#### Menu
+Once logged in, users can view the menu page with various food items displayed along with their image, name, price as well as an option to save the item. User can search for items or filter them by categories (breakfast, lunch, dinner, snack, drinks).
+
+#### Saved items
+User can click on the heart icon to save or unsave an item from their saved items.
+
+#### Food details page
+If user clicks on an item, they can view more details like ingredients and calories and add as many as they like into their cart.
+
+#### Your cart
+User can view their cart where they can add more items, remove an item or save it for later. They can also see the total amount and proceed to checkout.
+
 
 ### Screenshot
 
@@ -45,9 +52,9 @@ The profile page lets you view/edit your personal info and logout.
 
 ### What I learned
 
-I learnt how to use various components of material package in Flutter to build a user-friendly interface. I also learnt how to integrate firebase into my flutter project, how efficient and easier a project becomes with the use of a database. I first use stateful state management but started learning about Bloc and tried to migrate a few components to Bloc state management.
+I learnt how to use various components of material package in Flutter to build a user-friendly interface. I also learnt how to integrate firebase into my flutter project, how efficient and easier a project becomes with the use of a database. I first used stateful state management but started learning about Bloc and am trying to migrate a few components to Bloc state management.
 
-Wrapper was used to check if user is logged in or not, so that one does not have to login each time they open the app.
+A wrapper was used to check if user is logged in or not, so that user does not have to login each time they open the app.
 ```dart
 StreamBuilder(
   stream: FirebaseAuth.instance.authStateChanges(),
