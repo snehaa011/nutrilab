@@ -6,39 +6,35 @@ This is a fun self-initiated project which aided me in continued learning and ha
 
 ## Table of contents
 
-- [Overview](#overview)
-  - [Features](#features)
-  - [Screenshot](#screenshot)
+- [Features](#features)
+- [Screenshot](#screenshot)
 - [My process](#my-process)
   - [Built with](#built-with)
   - [What I learned](#what-i-learned)
   - [Continued development](#continued-development)
-  - [Useful resources](#useful-resources)
 - [Author](#author)
 - [Acknowledgments](#acknowledgments)
 
-## Overview
+## Features
 
-### Features
-
-#### Profile
+### Profile
 
 Users can create a profile using the register option and add details such as name, email, mobile and set a password. Registered users can login using their email and passowrd. There is also an option to reset password via email. Users can edit their personal information, add/change address and logout in the profile page.
 
-#### Menu
+### Menu
 Once logged in, users can view the menu page with various food items displayed along with their image, name, price as well as an option to save the item. User can search for items or filter them by categories (breakfast, lunch, dinner, snack, drinks).
 
-#### Saved items
+### Saved items
 User can click on the heart icon to save or unsave an item from their saved items.
 
-#### Food details page
+### Food details page
 If user clicks on an item, they can view more details like ingredients and calories and add as many as they like into their cart.
 
-#### Your cart
+### Your cart
 User can view their cart where they can add more items, remove an item or save it for later. They can also see the total amount and proceed to checkout.
 
 
-### Screenshot
+## Screenshot
 
 
 ## My process
@@ -121,7 +117,6 @@ class MenuBloc extends Bloc<MenuEvent, MenuState> {
 ```
 I am yet to learn how to efficiently implement blocs and avoid different blocs from being interconnected.
 
-### Useful resources
 
 ## Author
 
