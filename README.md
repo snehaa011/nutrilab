@@ -3,10 +3,7 @@
 NUTRILAB is a dummy food delivery app (as of now this app doesn't support real payments) dedicated to holistic lifestyle choices and healthy eating habits. 
 This is a fun project designed and coded by me.
 TechStack used :
-![image](https://github.com/snehaa011/nutrilab/assets/122629654/e97c0009-17c7-4f50-aaff-8c35b3c2a4fe)
-![image](https://github.com/snehaa011/nutrilab/assets/122629654/8afb2c9c-d194-49e4-a773-32339d66e691)
-![image](https://github.com/snehaa011/nutrilab/assets/122629654/f9443851-c9bf-44ab-abe4-06d5bafd9be0)
-![image](https://github.com/snehaa011/nutrilab/assets/122629654/be8cd94c-8eb6-4d69-9ae4-5c89b95e8c94)
+Flutter, Firebase, Firestore, Bloc
 
 ## Table of contents
 
