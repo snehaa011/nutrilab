@@ -7,8 +7,9 @@ class MenuItemModel {
   final int cal;
   final int price;
   final String itemId;
-  final bool isLiked;
-  final bool isInCart;
+  bool isLiked;
+  bool isInCart;
+  int qt;
 
   MenuItemModel({
     required this.name,
@@ -20,7 +21,8 @@ class MenuItemModel {
     required this.price,
     required this.itemId,
     required this.isLiked,
-    required this.isInCart
+    required this.isInCart,
+    required this.qt
   });
 
   factory MenuItemModel.fromMap(Map<String, dynamic> data) {
@@ -34,7 +36,8 @@ class MenuItemModel {
       price: data['price'],
       itemId: data['itemId'],
       isLiked: data['isLiked'],
-      isInCart: data['isInCart']
+      isInCart: data['isInCart'],
+      qt: data['qt']
     );
   }
 
@@ -49,7 +52,8 @@ class MenuItemModel {
       'price': price,
       'itemId': itemId,
       'isLiked': isLiked,
-      'isInCart': isInCart
+      'isInCart': isInCart,
+      'qt':qt
     };
   }
 }
