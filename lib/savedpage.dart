@@ -10,7 +10,6 @@ import 'package:nutrilab/buildsaved.dart';
 
 class GoToSavedPage extends StatefulWidget {
   GoToSavedPage({super.key});
-  late String id;
   @override
   State<GoToSavedPage> createState() => _GoToSavedPageState();
 }
@@ -36,22 +35,8 @@ class _GoToSavedPageState extends State<GoToSavedPage> {
                 ),
               ),
             ),
-            BlocListener<AuthBloc, AuthState>(
-              listener: (context, state) {
-                if (state is AuthenticatedState) {
-                  widget.id = state.userId ?? "";
-                }
-              },
-              child: Text(""),
-            ),
-            MultiBlocProvider(
-              providers: [
-                BlocProvider(create: (context) => GetItemsBloc(widget.id)),
-                BlocProvider(create: (context) => MenuBloc())
-              ],
-              child: Expanded(
-                child: BuildSaved(),
-              ),
+            Expanded(
+              child: BuildSaved(),
             ),
           ],
         ));

@@ -1,12 +1,15 @@
-import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:nutrilab/buildcart.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:nutrilab/bloc/getitemsbloc/getitems_bloc.dart';
+import 'package:nutrilab/bloc/getitemsbloc/getitems_event.dart';
+import 'package:nutrilab/bloc/getitemsbloc/getitems_state.dart';
+import 'package:nutrilab/models/menuitemmodel.dart';
 import './snackbar.dart';
 import './menudetails.dart';
 
-class CartItemWidget extends StatefulWidget {
+class CartItemWidget extends StatelessWidget {
+  MenuItemModel fm;
   final String name;
   final String des;
   final String img;
@@ -16,8 +19,9 @@ class CartItemWidget extends StatefulWidget {
   final int price;
   final String itemId;
 
-  const CartItemWidget({
+  CartItemWidget({
     super.key,
+    required this.fm,
     required this.name,
     required this.des,
     required this.img,
@@ -27,214 +31,6 @@ class CartItemWidget extends StatefulWidget {
     required this.price,
     required this.itemId,
   });
-
-  @override
-  State<CartItemWidget> createState() => _CartItemWidgetState();
-}
-
-class _CartItemWidgetState extends State<CartItemWidget> {
-  bool isLiked = false;
-  int quantity = 0;
-  final FirebaseAuth _auth = FirebaseAuth.instance;
-  @override
-  void initState() {
-    super.initState();
-    _checkIfLiked();
-    _checkQt();
-  }
-
-  Future<void> _checkIfLiked() async {
-    User? currentUser = _auth.currentUser;
-    if (currentUser == null) {
-      // Handle user not logged in
-      return;
-    }
-
-    String? userId = currentUser.email;
-    DocumentReference userRef =
-        FirebaseFirestore.instance.collection('users').doc(userId);
-
-    try {
-      DocumentSnapshot userDoc = await userRef.get();
-      Map<String, dynamic>? userData =
-          userDoc.data() as Map<String, dynamic>?; 
-      List liked = userData?['liked'] ?? [];
-
-      if (liked.contains(widget.itemId) && mounted) {
-        setState(() {
-          isLiked = true;
-        });
-      }
-    } catch (e) {
-      log("Error fetching user document: $e");
-    }
-  }
-
-  void _checkQt() {
-    Future<int> n = _fetchQt();
-    n.then((value) {
-      if (mounted){
-        setState(() {
-        quantity = value;
-      });
-      }
-      
-    });
-  }
-
-  Future<int> _fetchQt() async {
-    User? currentUser = _auth.currentUser;
-    if (currentUser == null) {
-      // Handle user not logged in
-      return 0;
-    }
-    String? userId = currentUser.email;
-    DocumentReference userRef =
-        FirebaseFirestore.instance.collection('users').doc(userId);
-
-    try {
-      DocumentSnapshot userDoc =
-          await userRef.get(); 
-      Map<String, dynamic> cart = userDoc['cart'] ?? {}; 
-      return cart[widget.itemId] ?? 0;
-    } catch (e) {
-      log("Error fetching user document: $e");
-      return 0;
-    }
-  }
-
-  Future<void> _saveForLater() async {
-    User? currentUser = _auth.currentUser;
-    if (currentUser == null) {
-      // Handle user not logged in
-      return;
-    }
-
-    String? userId = currentUser.email;
-    DocumentReference userRef =
-        FirebaseFirestore.instance.collection('users').doc(userId);
-    try {
-      if (!isLiked) {
-        // If item is not liked, add it to the array
-        await userRef.update({
-          'liked': FieldValue.arrayUnion([widget.itemId])
-        });
-        if (mounted){
-          setState(() {
-          isLiked = true;
-        });
-        }
-        showNotif(context, 'Saved for later!');
-        _removeAll(show:0);
-      }
-    } catch (e) {
-      log("Error fetching user document: $e");
-    }
-  }
-
-  Future <void> _removeAll({int show=0}) async{
-    User? currentUser = _auth.currentUser;
-    if (currentUser == null) {
-      log("Not logged in");
-      return;
-    }
-
-    String? userId = currentUser.email;
-    DocumentReference userRef =
-        FirebaseFirestore.instance.collection('users').doc(userId);
-
-    try {
-      DocumentSnapshot userDoc =
-          await userRef.get(); 
-      Map<String, dynamic>? userData =
-          userDoc.data() as Map<String, dynamic>?; 
-      Map<String, dynamic> cart = userData?['cart'] ?? {}; 
-
-      cart[widget.itemId] = 0;
-      if (mounted){
-        setState(() {
-        quantity = cart[widget.itemId];
-      });
-      }
-      
-      await userRef.update({'cart': cart}); // Update user document
-      if (show==1) showNotif(context, 'Item removed from cart!');
-      if (quantity == 0) {
-      context.findAncestorStateOfType<BuildCartState>()?.rebuild();
-    }
-    } catch (e) {
-      log("Error fetching user document: $e");
-    }
-  }
-
-  Future<void> _removeFromCart() async {
-    User? currentUser = _auth.currentUser;
-    if (currentUser == null) {
-      log("Not logged in");
-      return;
-    }
-
-    String? userId = currentUser.email;
-    DocumentReference userRef =
-        FirebaseFirestore.instance.collection('users').doc(userId);
-
-    try {
-      DocumentSnapshot userDoc =
-          await userRef.get(); 
-      Map<String, dynamic>? userData =
-          userDoc.data() as Map<String, dynamic>?; 
-      Map<String, dynamic> cart = userData?['cart'] ?? {}; 
-
-      cart[widget.itemId] = (cart[widget.itemId] ?? 1) - 1;
-      if (mounted){
-        setState(() {
-        quantity = cart[widget.itemId];
-      });
-      }
-      
-      await userRef.update({'cart': cart}); 
-      showNotif(context, '1 Item removed from cart!');
-      
-      context.findAncestorStateOfType<BuildCartState>()?.rebuild();
-    
-    } catch (e) {
-      log("Error fetching user document: $e");
-      // Handle error
-    }
-  }
-
-  Future<void> _addToCart() async {
-    User? currentUser = _auth.currentUser;
-    if (currentUser == null) {
-      log("Not logged in");
-      return;
-    }
-
-    String? userId = currentUser.email;
-    DocumentReference userRef =
-        FirebaseFirestore.instance.collection('users').doc(userId);
-
-    try {
-      DocumentSnapshot userDoc =
-          await userRef.get(); 
-      Map<String, dynamic>? userData =
-          userDoc.data() as Map<String, dynamic>?; 
-      Map<String, dynamic> cart = userData?['cart'] ?? {}; 
-      cart[widget.itemId] = (cart[widget.itemId] ?? 0) + 1; 
-      if (mounted){
-        setState(() {
-        quantity = cart[widget.itemId];
-      });
-      }
-      
-      await userRef.update({'cart': cart}); 
-      showNotif(context, '1 Item added to cart!');
-      context.findAncestorStateOfType<BuildCartState>()?.rebuild();
-    } catch (e) {
-      log("Error fetching user document: $e");
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
@@ -248,6 +44,15 @@ class _CartItemWidgetState extends State<CartItemWidget> {
     double itemWidth =
         (screenWidth - 30); // 30 is for padding/margin adjustment
     double itemHeight = screenHeight * 0.2; // Adjust height as necessary
+    BlocListener<GetItemsBloc, GetItemsState>(
+      listener: (context, state) {
+      if (state is GetItemsLoaded){
+        showNotif(context, state.message);
+      }
+      if (state is GetItemsError){
+        showNotif(context, state.error);
+      }
+    },);
     return Container(
       height: itemHeight,
       width: itemWidth,
@@ -266,14 +71,14 @@ class _CartItemWidgetState extends State<CartItemWidget> {
               context,
               MaterialPageRoute(
                 builder: (context) => DetailsPage(
-                  cal: widget.cal,
-                  des: widget.des,
-                  img: widget.img,
-                  ingr: widget.ingr,
-                  itemId: widget.itemId,
-                  name: widget.name,
-                  price: widget.price,
-                  type: widget.type,
+                  cal: fm.cal,
+                  des: fm.des,
+                  img: fm.img,
+                  ingr: fm.ingr,
+                  itemId: fm.itemId,
+                  name: fm.name,
+                  price: fm.price,
+                  type: fm.type,
                 ),
               ),
             );
@@ -300,7 +105,7 @@ class _CartItemWidgetState extends State<CartItemWidget> {
                             child: SingleChildScrollView(
                               child: Text(
                                 // overflow: TextOverflow.ellipsis,
-                                widget.name.toUpperCase(),
+                                fm.name.toUpperCase(),
                                 style: TextStyle(
                                   fontFamily: 'Lalezar',
                                   color: Color.fromARGB(255, 24, 79, 87),
@@ -310,7 +115,7 @@ class _CartItemWidgetState extends State<CartItemWidget> {
                             ),
                           ),
                           Text(
-                            "Rs. ${widget.price}",
+                            "Rs. ${fm.price}",
                             style: TextStyle(
                               fontFamily: 'Lalezar',
                               color: Color.fromARGB(255, 24, 79, 87),
@@ -330,13 +135,13 @@ class _CartItemWidgetState extends State<CartItemWidget> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          TextButton(onPressed: _saveForLater, child: Text("Save for Later",
+                          TextButton(onPressed: (){context.read<GetItemsBloc>().add(SavedForLater(FirebaseAuth.instance.currentUser?.email ?? "", fm));}, child: Text("Save for Later",
                           style: TextStyle(
                             color: Color.fromARGB(255, 54, 138, 207),
                             fontSize: 14,
                           ),
                           )),
-                          TextButton(onPressed: (){_removeAll(show: 1);
+                          TextButton(onPressed: (){ context.read<GetItemsBloc>().add(AllItemOfTypeRemovedFromCart(FirebaseAuth.instance.currentUser?.email ?? "", fm));
                           }, child: Text("Remove",
                           style: TextStyle(
                             color: Color.fromARGB(255, 207, 64, 54),
@@ -361,7 +166,7 @@ class _CartItemWidgetState extends State<CartItemWidget> {
                                   width: buttonWidth,
                                   child: ElevatedButton(
                                     onPressed:
-                                        (quantity > 0) ? _removeFromCart : null,
+                                        (fm.qt > 0) ? (){ context.read<GetItemsBloc>().add(ItemRemovedFromCart(FirebaseAuth.instance.currentUser?.email ?? "", fm));} : null,
                                     child: Icon(
                                       Icons.remove,
                                       color: Color.fromARGB(255, 24, 79, 87),
@@ -398,7 +203,7 @@ class _CartItemWidgetState extends State<CartItemWidget> {
                                   // color: Color.fromARGB(255, 255, 255, 255),
                                   alignment: Alignment.center,
                                   child: Text(
-                                    quantity.toString(),
+                                    fm.qt.toString(),
                                     style: TextStyle(
                                       fontSize: 20,
                                       fontWeight: FontWeight.w500,
@@ -415,7 +220,7 @@ class _CartItemWidgetState extends State<CartItemWidget> {
                                   height: height,
                                   width: buttonWidth,
                                   child: ElevatedButton(
-                                    onPressed: _addToCart,
+                                    onPressed: (){ context.read<GetItemsBloc>().add(ItemAddedToCart(FirebaseAuth.instance.currentUser?.email ?? "", fm));},
                                     style: ElevatedButton.styleFrom(
                                       side: BorderSide(
                                         color: Color.fromARGB(255, 24, 79, 87),
@@ -455,12 +260,13 @@ class _CartItemWidgetState extends State<CartItemWidget> {
                       child: AspectRatio(
                         aspectRatio: (itemWidth*0.3)/itemHeight, // Adjust as necessary
                         child: Image.network(
-                          widget.img,
+                          fm.img,
                           fit: BoxFit.cover,
                         ),
                       ),
                     ),
           ],),
     ),);
-  }
+  
+}
 }

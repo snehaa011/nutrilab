@@ -1,9 +1,6 @@
-import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:nutrilab/bloc/authbloc/auth_state.dart';
 import 'package:nutrilab/bloc/getitemsbloc/getitems_bloc.dart';
 import 'package:nutrilab/bloc/getitemsbloc/getitems_event.dart';
 import 'package:nutrilab/bloc/getitemsbloc/getitems_state.dart';
@@ -17,30 +14,28 @@ class BuildSaved extends StatelessWidget {
   final user= FirebaseAuth.instance.currentUser;
   @override
   Widget build(BuildContext context) {
-    return BlocListener<GetItemsBloc, GetItemsState>(listener: (context, state) {
-      if (state is GetItemsInitial){
-        context.read<GetItemsBloc>().add(LoadItems(user?.email ?? ""));
-      }},
-      child: BlocBuilder<MenuBloc, MenuState> (
-          builder: (context, state) {
-          if (state is MenuInitial){
-            context.read<MenuBloc>().add(LoadMenuItems(likedItems, cartItems));
-          }
+    return Builder(
+      builder: (context) {
+        final gstate = context.watch<GetItemsBloc>().state;
+        final mstate = context.watch<MenuBloc>().state;
+        if (gstate is GetItemsInitial){
+          context.read<GetItemsBloc>().add(LoadItems(user?.email ?? ""));
         }
-        ,) 
-    );
-        builder: (context, snapshot) {
-          if (snapshot.hasError) {
-            return Center(child: Text('ERROR'));
-          }
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(
+        if (gstate is GetItemsLoading || mstate is MenuLoading){
+          return Center(
               child: CircularProgressIndicator(
                 color: Color.fromARGB(255, 24, 79, 87),
               ),
             );
-          }
-          if (!snapshot.hasData || snapshot.data!.docs.isEmpty || documents.isEmpty){
+        }
+        if (gstate is GetItemsLoaded){
+          context.read<MenuBloc>().add(LoadMenuItems(gstate.likedItems, gstate.cartItems));
+        }
+        if (gstate is GetItemsError && mstate is MenuError){
+          return Center(child: Text("Error"));
+        }
+        if (mstate is MenuLoaded){
+          if (mstate.likedItems.isEmpty){
             return Center(
               child: Text(
                 'No items saved.',
@@ -52,31 +47,39 @@ class BuildSaved extends StatelessWidget {
               ),
             );
           }
-          return GridView.builder(
+          else{
+            return GridView.builder(
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 2,
               childAspectRatio: 0.75,
               crossAxisSpacing: 10.0,
               mainAxisSpacing: 10.0,
             ),
-            itemCount: documents.length,
+            itemCount: mstate.likedItems.length,
             itemBuilder: (context, index) {
-              final doc = documents[index];
-              final data = doc.data() as Map<String, dynamic>;
+              final doc = mstate.likedItems[index];
       
               return MenuItemWidget(
-                name: data['Name'],
-                des: data['Description'],
-                img: data['Image'],
-                ingr: data['Ingr'],
-                type: data['Type'],
-                cal: data['Calories'],
-                price: data['Price'],
-                itemId: doc.id,
+                fm: doc,
+                name: doc.name,
+                des: doc.des,
+                img: doc.img,
+                ingr: doc.ingr,
+                type: doc.type,
+                cal: doc.cal,
+                price: doc.price,
+                itemId: doc.itemId,
+                isLiked: doc.isLiked,
+                isInCart: doc.isInCart,
+                qt: doc.qt,
               );
             },
           );
-        },
+          }
+        }
+        return Container();
+      }
+    );
   }
 }
 

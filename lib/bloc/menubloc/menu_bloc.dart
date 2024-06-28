@@ -36,7 +36,9 @@ class MenuBloc extends Bloc<MenuEvent, MenuState> {
       List<MenuItemModel> cartMenuItems =
           menuItems.where((item) => item.isInCart).toList();
 
-      emit(MenuLoaded(menuItems, likedMenuItems, cartMenuItems));
+      int totalPrice = cartMenuItems.fold(0, (sum, item) => sum + (item.price * item.qt));
+
+      emit(MenuLoaded(menuItems, likedMenuItems, cartMenuItems, totalPrice));
     } catch (e) {
       emit(MenuError(e.toString()));
     }

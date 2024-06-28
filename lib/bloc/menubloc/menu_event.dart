@@ -7,3 +7,9 @@ abstract class MenuEvent {
 class LoadMenuItems extends MenuEvent {
   LoadMenuItems(super.likedItems, super.cartItems);
 }
+
+class FilterMenuItems extends MenuEvent {
+  String category;
+  String searchTerm;
+  FilterMenuItems(super.likedItems, super.cartItems, this.category, this.searchTerm);
+}

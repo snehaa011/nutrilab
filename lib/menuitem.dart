@@ -2,11 +2,17 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:nutrilab/bloc/getitemsbloc/getitems_bloc.dart';
+import 'package:nutrilab/bloc/getitemsbloc/getitems_event.dart';
+import 'package:nutrilab/bloc/getitemsbloc/getitems_state.dart';
 import 'package:nutrilab/buildsaved.dart';
 import 'package:nutrilab/menudetails.dart';
+import 'package:nutrilab/models/menuitemmodel.dart';
 import './snackbar.dart';
 
-class MenuItemWidget extends StatefulWidget {
+class MenuItemWidget extends StatelessWidget {
+  MenuItemModel fm;
   final String name;
   final String des;
   final String img;
@@ -15,8 +21,12 @@ class MenuItemWidget extends StatefulWidget {
   final int cal;
   final int price;
   final String itemId;
+  bool isLiked;
+  bool isInCart;
+  int qt;
 
   MenuItemWidget({
+    required this.fm,
     required this.name,
     required this.des,
     required this.img,
@@ -25,94 +35,10 @@ class MenuItemWidget extends StatefulWidget {
     required this.cal,
     required this.price,
     required this.itemId,
+    required this.isLiked,
+    required this.isInCart,
+    required this.qt,
   });
-
-  @override
-  _MenuItemWidgetState createState() => _MenuItemWidgetState();
-}
-
-class _MenuItemWidgetState extends State<MenuItemWidget> {
-  bool isLiked = false;
-  final FirebaseAuth _auth = FirebaseAuth.instance;
-
-  @override
-  void initState() {
-    super.initState();
-    _checkIfLiked();
-  }
-
-  Future<void> _checkIfLiked() async {
-    User? currentUser = _auth.currentUser;
-    if (currentUser == null) {
-      // Handle user not logged in
-      return;
-    }
-
-    String? userId = currentUser.email;
-    DocumentReference userRef =
-        FirebaseFirestore.instance.collection('users').doc(userId);
-
-    try {
-      DocumentSnapshot userDoc = await userRef.get();
-      // Map<String, dynamic>? userData =
-      //     userDoc.data() as Map<String, dynamic>?; // Get user data
-      List liked = userDoc['liked'] ?? [];
-
-      if (liked.contains(widget.itemId)) {
-        if (mounted){
-          setState(() {
-          isLiked = true;
-        });
-        }
-        
-      }
-    } catch (e) {
-      log('Error: $e');
-    }
-  }
-
-  Future<void> _toggleLiked() async {
-    User? currentUser = _auth.currentUser;
-    if (currentUser == null) {
-      // Handle user not logged in
-      return;
-    }
-
-    String? userId = currentUser.email;
-    DocumentReference userRef =
-        FirebaseFirestore.instance.collection('users').doc(userId);
-    try {
-      if (isLiked) {
-        // If item is already liked, remove it from the array
-        await userRef.update({
-          'liked': FieldValue.arrayRemove([widget.itemId])
-        });
-        if (mounted){
-          setState(() {
-          isLiked = false;
-        });
-        }
-        
-        showNotif(context,'Item removed from liked!');
-        context.findAncestorStateOfType<BuildSavedState>()?.rebuild();
-      } else {
-        // If item is not liked, add it to the array
-        await userRef.update({
-          'liked': FieldValue.arrayUnion([widget.itemId])
-        });
-        if (mounted){
-          setState(() {
-          isLiked = true;
-        });
-        }
-        
-        showNotif(context,'Item added to liked!');
-      }
-    } catch (e) {
-      showNotif(context,'Error: $e');
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     // Get screen width and height using MediaQuery
@@ -142,14 +68,14 @@ class _MenuItemWidgetState extends State<MenuItemWidget> {
             context,
             MaterialPageRoute(
               builder: (context) => DetailsPage(
-                cal: widget.cal,
-                des: widget.des,
-                img: widget.img,
-                ingr: widget.ingr,
-                itemId: widget.itemId,
-                name: widget.name,
-                price: widget.price,
-                type: widget.type,
+                cal: cal,
+                des: des,
+                img: img,
+                ingr: ingr,
+                itemId: itemId,
+                name: name,
+                price: price,
+                type: type,
               ),
             ),
           );
@@ -170,7 +96,7 @@ class _MenuItemWidgetState extends State<MenuItemWidget> {
                       child: AspectRatio(
                         aspectRatio: 16/11, // Adjust as necessary
                         child: Image.network(
-                          widget.img,
+                          img,
                           fit: BoxFit.cover,
                         ),
                       ),
@@ -198,7 +124,7 @@ class _MenuItemWidgetState extends State<MenuItemWidget> {
                                   ),
                                   // alignment: Alignment.topLeft,
                                   child: Text(
-                                    widget.type,
+                                    type,
                                     style: TextStyle(
                                       color: Color.fromARGB(255, 24, 79, 87),
                                       fontSize: screenWidth *
@@ -208,7 +134,7 @@ class _MenuItemWidgetState extends State<MenuItemWidget> {
                                 ),
                               ),
                               Text(
-                                "Rs. ${widget.price}",
+                                "Rs. ${price}",
                                 style: TextStyle(
                                   fontFamily: 'Lalezar',
                                   color: Color.fromARGB(255, 24, 79, 87),
@@ -226,7 +152,7 @@ class _MenuItemWidgetState extends State<MenuItemWidget> {
                                 alignment: Alignment.centerLeft,
                                 child: Text(
                                   // overflow: TextOverflow.ellipsis,
-                                  widget.name.toUpperCase(),
+                                  name.toUpperCase(),
                                   style: TextStyle(
                                     fontFamily: 'Lalezar',
                                     color: Color.fromARGB(255, 24, 79, 87),
@@ -256,11 +182,32 @@ class _MenuItemWidgetState extends State<MenuItemWidget> {
                         ),
                       ),
                       child: IconButton(
-                        icon: Icon(
-                          isLiked ? Icons.favorite : Icons.favorite_border,
-                          color: const Color.fromARGB(255, 127, 189, 129),
+                        icon: BlocConsumer<GetItemsBloc, GetItemsState>(
+                          listener: (context,state){
+                            if (state is GetItemsLoaded){
+                              showNotif(context, state.message);
+                            }
+                            if (state is GetItemsError){
+                              showNotif(context, state.error);
+                            }
+                          },
+                          builder: (context,state) {
+                            if (state is GetItemsLoading){
+                              return Center(
+                                child: CircularProgressIndicator(
+                                  color: Color.fromARGB(255, 24, 79, 87),
+                                ),
+                              );
+                            }
+                            return Icon(
+                            fm.isLiked ? Icons.favorite : Icons.favorite_border,
+                            color: const Color.fromARGB(255, 127, 189, 129),
+                          );
+                          }
                         ),
-                        onPressed: _toggleLiked,
+                        onPressed: (){
+                          context.read<GetItemsBloc>().add(SavedButtonToggled(FirebaseAuth.instance.currentUser?.email ?? "", fm));
+                        },
                       ),
                     ),
                   ),
@@ -271,5 +218,7 @@ class _MenuItemWidgetState extends State<MenuItemWidget> {
         ),
       ),
     );
-  }
+  
+}
+
 }

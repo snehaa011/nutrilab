@@ -47,16 +47,7 @@ class _MenuPageState extends State<MenuPage> {
               context,
               index,
             ) {
-              return MenuItemWidget(
-                name: data.docs[index]['Name'],
-                des: data.docs[index]['Description'],
-                img: data.docs[index]['Image'],
-                ingr: data.docs[index]['Ingr'],
-                type: data.docs[index]['Type'],
-                cal: data.docs[index]['Calories'],
-                price: data.docs[index]['Price'],
-                itemId: data.docs[index].id,
-              );
+              return Container();
             });
       },
     );
