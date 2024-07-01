@@ -1,6 +1,14 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:nutrilab/bloc/getitemsbloc/getitems_bloc.dart';
+import 'package:nutrilab/bloc/getitemsbloc/getitems_event.dart';
+import 'package:nutrilab/bloc/getitemsbloc/getitems_state.dart';
+import 'package:nutrilab/bloc/menubloc/menu_bloc.dart';
+import 'package:nutrilab/bloc/menubloc/menu_event.dart';
+import 'package:nutrilab/bloc/menubloc/menu_state.dart';
 import 'package:nutrilab/menuitem.dart';
+import 'package:nutrilab/models/menuitemmodel.dart';
 
 class GoToMenuPage extends StatefulWidget {
   const GoToMenuPage({super.key});
@@ -121,87 +129,86 @@ class _GoToMenuPageState extends State<GoToMenuPage> {
             ),
           ),
           Expanded(
-            child: StreamBuilder<QuerySnapshot>(
-              stream: FirebaseFirestore.instance
-                  .collection('menuitems')
-                  .snapshots(),
-              builder: (context, snapshot) {
-                if (snapshot.hasError) {
-                  return Center(child: Text('ERROR'));
-                }
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return Center(
-                    child: CircularProgressIndicator(
-                      color: Color.fromARGB(255, 24, 79, 87),
-                    ),
-                  );
-                }
-
-                final List<DocumentSnapshot> filteredMenuItems =
-                    snapshot.data!.docs.where((doc) {
-                  final data = doc.data() as Map<String, dynamic>;
-                  final String searchTerm =
+            child: Builder(
+      builder: (context) {
+        final gstate = context.watch<GetItemsBloc>().state;
+        final mstate = context.watch<MenuBloc>().state;
+        if (mstate is MenuLoaded){
+          final String searchTerm =
                       _searchController.text.toLowerCase();
-                  final String name = data['Name']?.toLowerCase() ?? '';
-                  final String ingr = data['Ingr']?.toLowerCase() ?? '';
-                  final String type = data['Type']?.toLowerCase() ?? '';
-                  final int calories = data['Calories'] ?? 0;
-
-                  final matchesSearchTerm = name.contains(searchTerm) ||
-                      ingr.contains(searchTerm) ||
-                      type.contains(searchTerm) ||
-                      calories.toString().contains(searchTerm);
-
-                  final matchesCategory = _selectedCategory == 'All' ||
-                      type == _selectedCategory.toLowerCase();
-
-                  return matchesSearchTerm && matchesCategory;
-                }).toList();
-
-                if (filteredMenuItems.isEmpty) {
-                  return Center(
-                    child: Text(
-                      'No items found.',
-                      style: TextStyle(
-                          fontFamily: 'Lalezar',
-                          color: Color.fromARGB(255, 83, 83, 83),
-                          fontSize: 25),
-                    ),
-                  );
-                }
-
-                return Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 25, vertical: 5),
-                  child: GridView.builder(
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2,
-                      childAspectRatio: 0.75,
+          List<MenuItemModel> filteredItems =
+          mstate.menuItems.where((item) => (item.name.contains(searchTerm) ||
+                      item.ingr.contains(searchTerm) ||
+                      item.type.contains(searchTerm) ||
+                      item.cal.toString().contains(searchTerm)) && 
+                      (item.type == _selectedCategory || 
+                      _selectedCategory=="All")).toList();
+          if (filteredItems.isEmpty){
+            return Center(
+              child: Text(
+                'No items found.',
+                style: TextStyle(
+                  fontFamily: 'Lalezar',
+                  color: Color.fromARGB(255, 83, 83, 83),
+                  fontSize: 25,
+                ),
+              ),
+            );
+          }
+          else{  
+            return Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 5),
+              child: GridView.builder(
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
+                childAspectRatio: 0.75,
                       // 0.75, // Adjusts the height and width ratio
                       mainAxisSpacing: mainAxisSpacing,
                       crossAxisSpacing: crossAxisSpacing,
-                    ),
-                    itemCount: filteredMenuItems.length,
-                    itemBuilder: (context, index) {
-                      final doc = filteredMenuItems[index];
-                      final data = doc.data() as Map<String, dynamic>;
-
-                      return MenuItemWidget(
-                        name: data['Name'],
-                        des: data['Description'],
-                        img: data['Image'],
-                        ingr: data['Ingr'],
-                        type: data['Type'],
-                        cal: data['Calories'],
-                        price: data['Price'],
-                        itemId: doc.id,
-                      );
-                    },
-                  ),
+              ),
+              itemCount: filteredItems.length,
+              itemBuilder: (context, index) {
+                final doc = filteredItems[index];
+                    
+                return MenuItemWidget(
+                  fm: doc,
+                  name: doc.name,
+                  des: doc.des,
+                  img: doc.img,
+                  ingr: doc.ingr,
+                  type: doc.type,
+                  cal: doc.cal,
+                  price: doc.price,
+                  itemId: doc.itemId,
+                  isLiked: doc.isLiked,
+                  isInCart: doc.isInCart,
+                  qt: doc.qt,
                 );
               },
+                        ),
+            );
+          }
+        }
+        else if (gstate is GetItemsInitial){
+          context.read<GetItemsBloc>().add(LoadItems(FirebaseAuth.instance.currentUser?.email ?? ""));
+        }
+        else if (gstate is GetItemsLoading){
+          return Center(
+              child: CircularProgressIndicator(
+                color: Color.fromARGB(255, 24, 79, 87),
+              ),
+            );
+        }
+        else if (gstate is GetItemsLoaded){
+          context.read<MenuBloc>().add(LoadMenuItems(gstate.likedItems, gstate.cartItems));
+        }
+        else if (gstate is GetItemsError || mstate is MenuError){
+          return Center(child: Text("Error"));
+        }
+        return Container();
+      }
+    ),
             ),
-          ),
         ],
       ),
     );

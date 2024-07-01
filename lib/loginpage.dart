@@ -1,28 +1,19 @@
 // ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors
 import 'package:flutter/material.dart';
-import 'package:nutrilab/authservice.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:nutrilab/bloc/authbloc/auth_bloc.dart';
+import 'package:nutrilab/bloc/authbloc/auth_event.dart';
+import 'package:nutrilab/bloc/authbloc/auth_state.dart';
 import 'package:nutrilab/forgot.dart';
 import 'package:nutrilab/registerpage.dart';
+import 'package:nutrilab/snackbar.dart';
 import './deco.dart';
 
-class GoToLoginPage extends StatefulWidget {
-  const GoToLoginPage({super.key});
+class GoToLoginPage extends StatelessWidget {
+  GoToLoginPage({super.key});
 
-  @override
-  State<GoToLoginPage> createState() => _GoToLoginPageState();
-}
-
-class _GoToLoginPageState extends State<GoToLoginPage> {
-  final _auth = AuthService();
   final _email = TextEditingController();
   final _password = TextEditingController();
-
-  @override
-  void dispose() {
-    _email.dispose();
-    _password.dispose();
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +23,7 @@ class _GoToLoginPageState extends State<GoToLoginPage> {
     final double baseFontSize = screenWidth * 0.05;
     final double smallFontSize = baseFontSize * 0.65;
     final double mediumFontSize = baseFontSize * 0.8;
-    final double largeFontSize = baseFontSize*1.4;
+    final double largeFontSize = baseFontSize * 1.4;
     final double extraLargeFontSize = baseFontSize * 2.5;
 
     return Scaffold(
@@ -136,7 +127,11 @@ class _GoToLoginPageState extends State<GoToLoginPage> {
               SizedBox(
                 width: screenWidth - 40,
                 child: ElevatedButton(
-                  onPressed: _login,
+                  onPressed: () {
+                    context
+                        .read<AuthBloc>()
+                        .add(LoginClicked(_email.text, _password.text));
+                  },
                   style: ElevatedButton.styleFrom(
                     padding: EdgeInsets.fromLTRB(100, 5, 100, 15),
                     backgroundColor: Color.fromARGB(255, 24, 79, 87),
@@ -154,6 +149,18 @@ class _GoToLoginPageState extends State<GoToLoginPage> {
                     ),
                   ),
                 ),
+              ),
+              BlocListener<AuthBloc, AuthState>(
+                listener: (context, state) {
+                  if (state.message != "") {
+                    if (state is ErrorState || state is CredinvalidState){
+                      showNotif(context, state.message, duration: 2, error:true);
+                    }else{
+                      showNotif(context, state.message, duration: 2);
+                    }
+                  }
+                },
+                child: Text(""),
               ),
               Spacer(),
               Row(
@@ -198,14 +205,6 @@ class _GoToLoginPageState extends State<GoToLoginPage> {
           ),
         ),
       ),
-    );
-  }
-
-  _login() async {
-    await _auth.loginUserWithEmailAndPassword(
-      context,
-      _email.text,
-      _password.text,
     );
   }
 }

@@ -2,10 +2,15 @@
 import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nutrilab/authservice.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:nutrilab/bloc/authbloc/auth_bloc.dart';
+import 'package:nutrilab/bloc/authbloc/auth_event.dart';
+import 'package:nutrilab/bloc/authbloc/auth_state.dart';
 import 'package:nutrilab/editprofile.dart';
+import 'package:nutrilab/snackbar.dart';
 
 class GoToProfile extends StatefulWidget {
   const GoToProfile({super.key});
@@ -50,7 +55,7 @@ class GoToProfileState extends State<GoToProfile> {
           if (address.isNotEmpty) {
             state = address['state'] ?? '';
             city = address['city'] ?? '';
-            if (address.containsKey('zip') && address['zip']!=null) {
+            if (address.containsKey('zip') && address['zip'] != null) {
               zip = address['zip'].toString();
             }
           }
@@ -116,20 +121,20 @@ class GoToProfileState extends State<GoToProfile> {
                 ElevatedButton(
                   onPressed: () async {
                     // Navigate to edit profile page
-                     await Navigator.push(
+                    await Navigator.push(
                       context,
                       MaterialPageRoute(
                         builder: (context) => EditProfilePage(
                           name: name,
                           mobile: mobile,
-                          email:email,
+                          email: email,
                           state: state,
                           city: city,
                           zip: zip,
                         ),
                       ),
                     );
-                    _getUser(); 
+                    _getUser();
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Color.fromARGB(255, 24, 79, 87),
@@ -318,8 +323,8 @@ class GoToProfileState extends State<GoToProfile> {
             SizedBox(
               width: MediaQuery.of(context).size.width * 0.45,
               child: ElevatedButton(
-                onPressed: () async {
-                  await _user.signout(context);
+                onPressed: () {
+                  context.read<AuthBloc>().add(LogoutClicked());
                 },
                 style: ElevatedButton.styleFrom(
                   padding: EdgeInsets.fromLTRB(0, 5, 0, 9),
@@ -338,6 +343,18 @@ class GoToProfileState extends State<GoToProfile> {
                   ),
                 ),
               ),
+            ),
+            BlocListener<AuthBloc, AuthState>(
+              listener: (context, state) {
+                if (state.message != "") {
+                  if (state is ErrorState) {
+                    showNotif(context, state.message, duration: 2, error: true);
+                  } else {
+                    showNotif(context, state.message, duration: 2);
+                  }
+                }
+              },
+              child: Text(""),
             ),
           ],
         ),

@@ -5,6 +5,9 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/foundation.dart'
     show defaultTargetPlatform, TargetPlatform;
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:nutrilab/bloc/authbloc/auth_bloc.dart';
+import 'package:nutrilab/bloc/getitemsbloc/getitems_bloc.dart';
 import 'package:nutrilab/wrapper.dart';
 
 Future<void> main() async {
@@ -54,9 +57,14 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: Wrapper(),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(create: (context) => AuthBloc(),),
+      ],
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        home: Wrapper(),
+      ),
     );
   }
 }

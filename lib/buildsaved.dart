@@ -1,135 +1,88 @@
-import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:nutrilab/bloc/getitemsbloc/getitems_bloc.dart';
+import 'package:nutrilab/bloc/getitemsbloc/getitems_event.dart';
+import 'package:nutrilab/bloc/getitemsbloc/getitems_state.dart';
+import 'package:nutrilab/bloc/menubloc/menu_bloc.dart';
+import 'package:nutrilab/bloc/menubloc/menu_event.dart';
+import 'package:nutrilab/bloc/menubloc/menu_state.dart';
 import './menuitem.dart';
 
-class BuildSaved extends StatefulWidget {
-  const BuildSaved({super.key});
-
-  @override
-  State<BuildSaved> createState() => BuildSavedState();
-}
-
-class BuildSavedState extends State<BuildSaved> {
-  final FirebaseAuth _auth = FirebaseAuth.instance;
-  List liked = [];
-  List<DocumentSnapshot> documents = [];
-  @override
-  void initState() {
-    super.initState();
-    _initializeLikedItems();
-  }
-
-  void rebuild(){
-    if (mounted){
-      setState(() {
-        liked=[];
-        documents=[];
-      });
-      _initializeLikedItems();
-    }
-  }
-  Future<void> _initializeLikedItems() async {
-    await _checkLiked();
-    await fetchDocuments(liked);
-  }
-
-  Future<void> _checkLiked() async {
-    User? currentUser = _auth.currentUser;
-    if (currentUser == null) {
-      // Handle user not logged in
-      return;
-    }
-
-    String? userId = currentUser.email;
-    DocumentReference userRef =
-        FirebaseFirestore.instance.collection('users').doc(userId);
-
-    try {
-      DocumentSnapshot userDoc = await userRef.get();
-      if (mounted){
-        setState(() {
-        liked = userDoc['liked'] ?? [];
-      });
-      }
-      
-    } catch (e) {
-      log('Error: $e');
-    }
-  }
-
-  Future<void> fetchDocuments(List<dynamic> docIds) async {
-    for (String docId in docIds) {
-      DocumentSnapshot docSnapshot = await FirebaseFirestore.instance
-          .collection('menuitems')
-          .doc(docId)
-          .get();
-
-      if (docSnapshot.exists) {
-        if (mounted){
-          setState(() {
-          documents.add(docSnapshot);
-        });
-        }
-      }
-    }
-  }
-
+class BuildSaved extends StatelessWidget {
+  BuildSaved({super.key});
+  final user= FirebaseAuth.instance.currentUser;
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<QuerySnapshot>(
-      stream: FirebaseFirestore.instance.collection('menuitems').snapshots(),
-      builder: (context, snapshot) {
-        if (snapshot.hasError) {
-          return Center(child: Text('ERROR'));
+    return Builder(
+      builder: (context) {
+        final gstate = context.watch<GetItemsBloc>().state;
+        final mstate = context.watch<MenuBloc>().state;
+        if (gstate is GetItemsInitial){
+          context.read<GetItemsBloc>().add(LoadItems(user?.email ?? ""));
         }
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return Center(
-            child: CircularProgressIndicator(
-              color: Color.fromARGB(255, 24, 79, 87),
-            ),
-          );
-        }
-        if (!snapshot.hasData || snapshot.data!.docs.isEmpty || documents.isEmpty){
-          return Center(
-            child: Text(
-              'No items saved.',
-              style: TextStyle(
-                fontFamily: 'Lalezar',
-                color: Color.fromARGB(255, 83, 83, 83),
-                fontSize: 25,
+        else if (mstate is MenuLoaded){
+          if (mstate.likedItems.isEmpty){
+            return Center(
+              child: Text(
+                'No items saved.',
+                style: TextStyle(
+                  fontFamily: 'Lalezar',
+                  color: Color.fromARGB(255, 83, 83, 83),
+                  fontSize: 25,
+                ),
               ),
-            ),
-          );
-        }
-        return GridView.builder(
-          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 2,
-            childAspectRatio: 0.75,
-            crossAxisSpacing: 10.0,
-            mainAxisSpacing: 10.0,
-          ),
-          itemCount: documents.length,
-          itemBuilder: (context, index) {
-            final doc = documents[index];
-            final data = doc.data() as Map<String, dynamic>;
-
-            return MenuItemWidget(
-              name: data['Name'],
-              des: data['Description'],
-              img: data['Image'],
-              ingr: data['Ingr'],
-              type: data['Type'],
-              cal: data['Calories'],
-              price: data['Price'],
-              itemId: doc.id,
             );
-          },
-        );
-      },
+          }
+          else{
+            return GridView.builder(
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 2,
+              childAspectRatio: 0.75,
+              crossAxisSpacing: 10.0,
+              mainAxisSpacing: 10.0,
+            ),
+            itemCount: mstate.likedItems.length,
+            itemBuilder: (context, index) {
+              final doc = mstate.likedItems[index];
+      
+              return MenuItemWidget(
+                fm: doc,
+                name: doc.name,
+                des: doc.des,
+                img: doc.img,
+                ingr: doc.ingr,
+                type: doc.type,
+                cal: doc.cal,
+                price: doc.price,
+                itemId: doc.itemId,
+                isLiked: doc.isLiked,
+                isInCart: doc.isInCart,
+                qt: doc.qt,
+              );
+            },
+          );
+          }
+        }
+        else if (gstate is GetItemsLoading || mstate is MenuLoading){
+          return Center(
+              child: CircularProgressIndicator(
+                color: Color.fromARGB(255, 24, 79, 87),
+              ),
+            );
+        }
+        else if (gstate is GetItemsLoaded){
+          context.read<MenuBloc>().add(LoadMenuItems(gstate.likedItems, gstate.cartItems));
+        }
+        else if (gstate is GetItemsError && mstate is MenuError){
+          return Center(child: Text("Error"));
+        }
+        
+        return Container();
+      }
     );
   }
 }
+
 
 
