@@ -36,27 +36,38 @@ User can view their cart where they can add more items, remove an item or save i
 
 ## Screenshot
 ### Register Page
-  ![Register page](./assets/images/registerpage.png)
+<img width="241" alt="registerpage" src="https://github.com/snehaa011/nutrilab/assets/122629654/54ce4d0f-c5aa-4bcc-93c0-b27f0acafe57">
+
 ### Login page
   <img width="242" alt="loginpage" src="https://github.com/snehaa011/nutrilab/assets/122629654/a2723470-b183-4903-8590-2ff209f4a1a5">
+
 ### Menu page
   <img width="241" alt="menupage" src="https://github.com/snehaa011/nutrilab/assets/122629654/546b71e8-52b6-48ab-91bf-3f9cc8cc0c6f">
+
 ### Filtration feature
   <img width="244" alt="filter" src="https://github.com/snehaa011/nutrilab/assets/122629654/c81d283f-2ec1-495d-b6e5-8f2eaf8fcbbf">
+
 ### Search and filtration
   <img width="243" alt="search filter" src="https://github.com/snehaa011/nutrilab/assets/122629654/90d37921-7edc-4887-9053-ff645d519901">
+
 ### No items in search
   <img width="241" alt="noitems" src="https://github.com/snehaa011/nutrilab/assets/122629654/9f3fca0c-7d83-4b4e-b93b-92a2e1118d8f">
+
 ### Details page
   <img width="241" alt="detailspage" src="https://github.com/snehaa011/nutrilab/assets/122629654/dc9baedc-a939-4529-88b8-ff2f52e40958">
+
 ### Saved items page
   <img width="241" alt="savedpage" src="https://github.com/snehaa011/nutrilab/assets/122629654/8fdcb3df-19da-4b7c-81ce-7339824e11f5">
+
 ### Cart page
   <img width="241" alt="cartpage" src="https://github.com/snehaa011/nutrilab/assets/122629654/3ea787c1-7164-403e-9e96-b42ebdafdf8e">
+
 ### Checkout page
   <img width="239" alt="checkoutpage" src="https://github.com/snehaa011/nutrilab/assets/122629654/3daba706-fa0f-46fb-a1c1-c2c004e407c9">
+
 ### Profile page
   <img width="242" alt="profilepage" src="https://github.com/snehaa011/nutrilab/assets/122629654/574845ea-811d-4584-92ae-7b80053fd247">
+
 ### Edit page
   <img width="284" alt="editpage" src="https://github.com/snehaa011/nutrilab/assets/122629654/35341cb6-0adb-4e6b-b090-b9a500d5246b">
 
