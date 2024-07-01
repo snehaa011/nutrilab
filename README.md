@@ -36,7 +36,7 @@ User can view their cart where they can add more items, remove an item or save i
 
 ## Screenshot
 ### Register Page
-    <img width="241" alt="registerpage" src="https://github.com/snehaa011/nutrilab/assets/122629654/54ce4d0f-c5aa-4bcc-93c0-b27f0acafe57">
+    ![Register page](./assets/images/registerpage.png)
 ### Login page
     <img width="242" alt="loginpage" src="https://github.com/snehaa011/nutrilab/assets/122629654/a2723470-b183-4903-8590-2ff209f4a1a5">
 ### Menu page
