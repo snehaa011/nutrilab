@@ -21,20 +21,7 @@ class BuildSaved extends StatelessWidget {
         if (gstate is GetItemsInitial){
           context.read<GetItemsBloc>().add(LoadItems(user?.email ?? ""));
         }
-        if (gstate is GetItemsLoading || mstate is MenuLoading){
-          return Center(
-              child: CircularProgressIndicator(
-                color: Color.fromARGB(255, 24, 79, 87),
-              ),
-            );
-        }
-        if (gstate is GetItemsLoaded){
-          context.read<MenuBloc>().add(LoadMenuItems(gstate.likedItems, gstate.cartItems));
-        }
-        if (gstate is GetItemsError && mstate is MenuError){
-          return Center(child: Text("Error"));
-        }
-        if (mstate is MenuLoaded){
+        else if (mstate is MenuLoaded){
           if (mstate.likedItems.isEmpty){
             return Center(
               child: Text(
@@ -77,6 +64,20 @@ class BuildSaved extends StatelessWidget {
           );
           }
         }
+        else if (gstate is GetItemsLoading || mstate is MenuLoading){
+          return Center(
+              child: CircularProgressIndicator(
+                color: Color.fromARGB(255, 24, 79, 87),
+              ),
+            );
+        }
+        else if (gstate is GetItemsLoaded){
+          context.read<MenuBloc>().add(LoadMenuItems(gstate.likedItems, gstate.cartItems));
+        }
+        else if (gstate is GetItemsError && mstate is MenuError){
+          return Center(child: Text("Error"));
+        }
+        
         return Container();
       }
     );

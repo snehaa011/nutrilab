@@ -133,22 +133,6 @@ class _GoToMenuPageState extends State<GoToMenuPage> {
       builder: (context) {
         final gstate = context.watch<GetItemsBloc>().state;
         final mstate = context.watch<MenuBloc>().state;
-        if (gstate is GetItemsInitial){
-          context.read<GetItemsBloc>().add(LoadItems(FirebaseAuth.instance.currentUser?.email ?? ""));
-        }
-        if (gstate is GetItemsLoading || mstate is MenuLoading){
-          return Center(
-              child: CircularProgressIndicator(
-                color: Color.fromARGB(255, 24, 79, 87),
-              ),
-            );
-        }
-        if (gstate is GetItemsLoaded){
-          context.read<MenuBloc>().add(LoadMenuItems(gstate.likedItems, gstate.cartItems));
-        }
-        if (gstate is GetItemsError || mstate is MenuError){
-          return Center(child: Text("Error"));
-        }
         if (mstate is MenuLoaded){
           final String searchTerm =
                       _searchController.text.toLowerCase();
@@ -204,6 +188,22 @@ class _GoToMenuPageState extends State<GoToMenuPage> {
                         ),
             );
           }
+        }
+        else if (gstate is GetItemsInitial){
+          context.read<GetItemsBloc>().add(LoadItems(FirebaseAuth.instance.currentUser?.email ?? ""));
+        }
+        else if (gstate is GetItemsLoading){
+          return Center(
+              child: CircularProgressIndicator(
+                color: Color.fromARGB(255, 24, 79, 87),
+              ),
+            );
+        }
+        else if (gstate is GetItemsLoaded){
+          context.read<MenuBloc>().add(LoadMenuItems(gstate.likedItems, gstate.cartItems));
+        }
+        else if (gstate is GetItemsError || mstate is MenuError){
+          return Center(child: Text("Error"));
         }
         return Container();
       }
