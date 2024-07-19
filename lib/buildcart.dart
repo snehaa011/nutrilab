@@ -50,9 +50,12 @@ class BuildCartState extends State<BuildCart> {
       DocumentSnapshot userDoc = await userRef.get();
       Map<String, dynamic>? userData =
           userDoc.data() as Map<String, dynamic>?; 
-      setState(() {
-        cart = userData?['cart'] ?? {};
-      });
+          if (mounted){
+            setState(() {
+              cart = userData?['cart'] ?? {};
+            });
+          }
+      
     } catch (e) {
       log('Error: $e');
     }
@@ -71,11 +74,14 @@ class BuildCartState extends State<BuildCart> {
         if (docSnapshot.exists) {
           var data = docSnapshot.data() as Map<String, dynamic>;
           int price = data['Price'] as int;
-          setState(() {
-            totalPrice += quantity * price;
-            totalItems += quantity;
-            documents[docSnapshot] = quantity;
-          });
+          if (mounted){
+            setState(() {
+              totalPrice += quantity * price;
+              totalItems += quantity;
+              documents[docSnapshot] = quantity;
+            });
+          }
+          
         }
       }
     }
